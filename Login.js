@@ -18,15 +18,8 @@ function Login({navigation}) {
         { cancelable: false });
     };
 
-    let tempAlert = () => {
-        Alert.alert(
-        "로그인",
-        "로그인 성공",
-        [{
-            text: "확인",
-            style: "cancel"
-        }],
-        { cancelable: false });
+    let tempSuccess = () => {
+        navigation.navigate("ChatBot");
     };
 
     useEffect(() => {
@@ -41,7 +34,9 @@ function Login({navigation}) {
             <TextInput placeholder="비밀번호를 입력하세요" secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
             <TouchableOpacity
                     onPress={ (e) => {
-                        (id === "test") && (password === "test123") ? tempAlert() : checkAlert(); // 서버 API 호출 대체 예정
+                        // 서버 API 호출 대체 예정
+                        // id, password가 올바른 경우 tempSuccess() 프로시저 호출 (ChatBot 컴포넌트로 이동)
+                        (id === "test") && (password === "test123") ? tempSuccess() : checkAlert();
                     } }>
                 <Text style={btnStyle}>로그인</Text>
             </TouchableOpacity>
