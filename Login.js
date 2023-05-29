@@ -1,9 +1,34 @@
-import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import btnStyles from "./btnStyles";
 
 function Login({navigation}) {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
+    const [btnStyle, setBtnStyle] = useState({});
+
+    let checkAlert = () => {
+        Alert.alert(
+        "로그인",
+        "일치하는 아이디와 비밀번호가 없습니다",
+        [{
+            text: "확인",
+            style: "cancel"
+        }],
+        { cancelable: false });
+    };
+
+    let tempAlert = () => {
+        Alert.alert(
+        "로그인",
+        "로그인 성공",
+        [{
+            text: "확인",
+            style: "cancel"
+        }],
+        { cancelable: false });
+    };
+
     return (
         <View>
             <Text>아이디</Text>
@@ -12,8 +37,9 @@ function Login({navigation}) {
             <TextInput placeholder="비밀번호를 입력하세요" secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
             <TouchableOpacity
                     onPress={ (e) => {
+                        (id === "test") && (password === "test123") ? tempAlert() : checkAlert(); // 서버 API 호출 대체 예정
                     } }>
-                <Text>로그인</Text>
+                <Text style={btnStyle}>로그인</Text>
             </TouchableOpacity>
             <Pressable
                     onPress={ (e) => {
