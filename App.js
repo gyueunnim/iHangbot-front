@@ -7,6 +7,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 /* screen */
 import Login from './Login';
 import SignUp from './SignUp';
+import ChatBot from './ChatBot';
+import Report from './Report';
 
 
 export default function App() {
@@ -16,6 +18,8 @@ export default function App() {
 			<Stack.Navigator initialRouteName="Login">
 				<Stack.Screen name="Login" component={Login} />
 				<Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="ChatBot" component={ChatBot} />
+        <Stack.Screen name="Report" component={Report} />
 			</Stack.Navigator>
 		</NavigationContainer>
   );
