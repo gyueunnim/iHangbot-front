@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import btnStyles from "./btnStyles";
 
 function SignUp() {
     const [name, setName] = useState("");
@@ -8,7 +9,7 @@ function SignUp() {
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
     const [check, setCheck] = useState(false);
-    const [btnColor, setBtnColor] = useState("");
+    const [btnStyle, setBtnStyle] = useState({});
 
     let checkAlert = () => {
         Alert.alert(                  
@@ -35,7 +36,7 @@ function SignUp() {
    )};
 
    useEffect(() => {
-       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnColor("#003d99") : setBtnColor("#8eb4d7")
+       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnStyle(btnStyles.btnActive) : setBtnStyle(btnStyles.btnDisabled)
    }, [name, id, password, checkPassword])
 
 
@@ -43,7 +44,7 @@ function SignUp() {
         <View>
             <Text>아이 이름</Text>
             <TextInput placeholder="아이 이름을 입력하세요" onChangeText={(text) => setName(text)}/>
-            <Text>아아디</Text>
+            <Text>아이디</Text>
             <TextInput placeholder="아이디를 입력하세요" onChangeText={(text) => setId(text)}/>
             <Text>비밀번호</Text>
             <TextInput placeholder="비밀번호를 입력하세요" secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
@@ -55,7 +56,7 @@ function SignUp() {
                         // password === checkPassword ? setCheck(true) : checkAlert() // tempAlert() -> 서버 API 호출 대체 예정
                         password === checkPassword ? tempAlert() : checkAlert() 
                     } }>
-                <Text style={{backgroundColor: btnColor, padding: 10, color: 'white'}}>회원가입</Text>
+                <Text style={btnStyle}>회원가입</Text>
             </TouchableOpacity>
         </View>
     );
