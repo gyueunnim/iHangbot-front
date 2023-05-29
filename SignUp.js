@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
 
 function SignUp() {
@@ -8,6 +8,7 @@ function SignUp() {
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
     const [check, setCheck] = useState(false);
+    const [btnColor, setBtnColor] = useState("");
 
     let checkAlert = () => {
         Alert.alert(                  
@@ -20,6 +21,23 @@ function SignUp() {
         }],
     { cancelable: false }
    )};
+   
+   let tempAlert = () => {
+        Alert.alert(                  
+        "회원가입",                    // Title
+        "회원가입이 완료되었습니다.",       // Sub-Title
+        [{                           // Button
+        
+            text: "확인",
+            style: "cancel"
+        }],
+    { cancelable: false }
+   )};
+
+   useEffect(() => {
+       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnColor("#003d99") : setBtnColor("#8eb4d7")
+   }, [name, id, password, checkPassword])
+
 
     return (
         <View>
@@ -34,9 +52,10 @@ function SignUp() {
 
             <TouchableOpacity
                     onPress={ (e) => {
-                        password === checkPassword ? setCheck(true) : checkAlert() // check === true, 서버 전송 예정
+                        // password === checkPassword ? setCheck(true) : checkAlert() // tempAlert() -> 서버 API 호출 대체 예정
+                        password === checkPassword ? tempAlert() : checkAlert() 
                     } }>
-                <Text>회원가입</Text>
+                <Text style={{backgroundColor: btnColor, padding: 10, color: 'white'}}>회원가입</Text>
             </TouchableOpacity>
         </View>
     );
