@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-function Login() {
+function Login({navigation}) {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     return (
@@ -17,6 +17,7 @@ function Login() {
             </TouchableOpacity>
             <Pressable
                     onPress={ (e) => {
+                        navigation.navigate('SignUp');
                     } }>
                 <Text>회원가입</Text>
             </Pressable>
