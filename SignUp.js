@@ -1,12 +1,26 @@
 
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
 
 function SignUp() {
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
+    const [check, setCheck] = useState(false);
+
+    let checkAlert = () => {
+        Alert.alert(                  
+        "회원가입",                    // Title
+        "비밀번호가 일치하지 않습니다",     // Sub-Title
+        [{                           // Button
+        
+            text: "확인",
+            style: "cancel"
+        }],
+    { cancelable: false }
+   )};
+
     return (
         <View>
             <Text>아이 이름</Text>
@@ -20,6 +34,7 @@ function SignUp() {
 
             <TouchableOpacity
                     onPress={ (e) => {
+                        password === checkPassword ? setCheck(true) : checkAlert() // check === true, 서버 전송 예정
                     } }>
                 <Text>회원가입</Text>
             </TouchableOpacity>
