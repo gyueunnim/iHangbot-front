@@ -29,6 +29,10 @@ function Login({navigation}) {
         { cancelable: false });
     };
 
+    useEffect(() => {
+        (id !== "") && (password !== "") ? setBtnStyle(btnStyles.btnActive) : setBtnStyle(btnStyles.btnDisabled);
+    }, [id, password]);
+
     return (
         <View>
             <Text>아이디</Text>
