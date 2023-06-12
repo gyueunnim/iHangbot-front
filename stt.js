@@ -7,9 +7,9 @@ const clientId = '9xqwkzpxel';
 const clientSecret = 'zrYEtuW4TC3KM7PPopOuZVQo6gE3pY9Uuor6eN4G';
 const url = 'https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=Kor';
 
-export default async function stt() {
+export default async function stt() { // 매개변수 파일명
     try {
-        const asset = Asset.fromModule(require('./assets/test1.wav'));
+        const asset = Asset.fromModule(require('./assets/test1.wav')); // test1 예시 -> 지금 뭐해
         await asset.downloadAsync();
         const fileUri = asset.localUri;
 
