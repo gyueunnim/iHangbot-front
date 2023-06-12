@@ -5,13 +5,16 @@ import { toByteArray } from 'base64-js';
 
 const clientId = '9xqwkzpxel';
 const clientSecret = 'zrYEtuW4TC3KM7PPopOuZVQo6gE3pY9Uuor6eN4G';
-const sttUrl = 'ttps://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=Kor';
+const url = 'https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=Kor';
 
-function stt(fileName) {
+export default async function stt() {
     try {
-        const asset = Asset.fromModule(require(`./assets/${fileName}.wav`));
+        const asset = Asset.fromModule(require('./assets/test1.wav'));
         await asset.downloadAsync();
         const fileUri = asset.localUri;
+
+        const fileInfo = await FileSystem.getInfoAsync(fileUri);
+
         if (fileInfo.exists) {
         const fileContent = await FileSystem.readAsStringAsync(fileUri, {
             encoding: FileSystem.EncodingType.Base64,
@@ -21,7 +24,7 @@ function stt(fileName) {
         const binaryData = toByteArray(fileContent);
 
         axios
-        .post(url_stt, binaryData, {
+        .post(url, binaryData, {
             headers: {
             'Content-Type': 'application/octet-stream',
             'X-NCP-APIGW-API-KEY-ID': clientId,
@@ -39,5 +42,3 @@ function stt(fileName) {
         console.log(error);
     }
 }
-
-export default stt;

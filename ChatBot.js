@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Text, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
+import stt from "./stt.js";
 
 function ChatBot({navigation}) {
     const [recording, setRecording] = useState();
