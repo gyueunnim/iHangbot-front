@@ -16,29 +16,29 @@ export default async function stt() { // 매개변수 파일명
         const fileInfo = await FileSystem.getInfoAsync(fileUri);
 
         if (fileInfo.exists) {
-        const fileContent = await FileSystem.readAsStringAsync(fileUri, {
-            encoding: FileSystem.EncodingType.Base64,
-        });
-    
-        // 디코딩
-        const binaryData = toByteArray(fileContent);
+            const fileContent = await FileSystem.readAsStringAsync(fileUri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
 
-        axios
-        .post(url, binaryData, {
-            headers: {
-            'Content-Type': 'application/octet-stream',
-            'X-NCP-APIGW-API-KEY-ID': clientId,
-            'X-NCP-APIGW-API-KEY': clientSecret,
-            },
-        })
-        .then(response => {
-            console.log('Upload successful:', response.data);
-        })
-        .catch(error => {
-            console.log('Upload failed:', error);
-        });
+            // 디코딩
+            const binaryData = toByteArray(fileContent);
+
+            axios
+                .post(url, binaryData, {
+                    headers: {
+                        'Content-Type': 'application/octet-stream',
+                        'X-NCP-APIGW-API-KEY-ID': clientId,
+                        'X-NCP-APIGW-API-KEY': clientSecret,
+                    },
+                })
+                .then(response => {
+                    console.log('Upload successful:', response.data);
+                })
+                .catch(error => {
+                    console.log('Upload failed:', error);
+                });
         }
-        } catch (error) {
+    } catch (error) {
         console.log(error);
     }
 }
