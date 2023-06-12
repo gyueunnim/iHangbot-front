@@ -18,21 +18,23 @@ export default async function stt(fileUri) {
             // 디코딩
             const binaryData = toByteArray(fileContent);
 
-            axios.post(url, binaryData, {
-                    headers: {
-                        'Content-Type': 'application/octet-stream',
-                        'X-NCP-APIGW-API-KEY-ID': clientId,
-                        'X-NCP-APIGW-API-KEY': clientSecret,
-                    },
-                })
-                .then(response => {
-                    console.log('Upload successful:', response.data);
-                })
-                .catch(error => {
-                    console.log('Upload failed:', error);
-                });
+            try {
+                const response = await axios
+                        .post(url, binaryData, {
+                            headers: {
+                                'Content-Type': 'application/octet-stream',
+                                'X-NCP-APIGW-API-KEY-ID': clientId,
+                                'X-NCP-APIGW-API-KEY': clientSecret,
+                            }
+                        });
+                return response.data;
+            } catch (error) {
+                console.error(error);
+                return { text: error };
+            }
         }
     } catch (error) {
         console.log(error);
+        return { text: error };
     }
 }

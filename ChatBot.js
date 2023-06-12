@@ -35,12 +35,16 @@ function ChatBot({navigation}) {
         const uri = recording.getURI();
         setRecording(undefined);
 
+        // Do STT job
+        const sttResult = await stt(uri);
+
         // Add the record info to recordFileInfo
         const newRecordFileInfo = [...recordFileInfo];
         newRecordFileInfo.push({
             title: `child-${recordFileInfo.length + 1}`,
             uri: uri,
-            duration: status.durationMillis
+            duration: status.durationMillis,
+            text: sttResult.text
         });
         console.log(newRecordFileInfo);
         setRecordFileInfo(newRecordFileInfo);
@@ -82,20 +86,19 @@ function ChatBot({navigation}) {
 
     return (
         <View style={ { alignItems: "center", justifyContent: "center" } }>
-            <Text>ChatBot</Text>
             <Button title="Temp: To Report" onPress={() => navigation.navigate("Report")} />
             <Button title={recording ? "Temp: stopRecording" : "Temp: startRecording"}
                     onPress={recording ? stopRecording : startRecording} />
             {
                 recordFileInfo.map((elem, idx) => {
                     return (
-                        <View style={{ flexDirection: "row" }} key={idx}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }} key={idx}>
                             <View>
                                 <Text>{elem.title}</Text>
                                 <Text>{elem.duration}</Text>
+                                <Text>{elem.text}</Text>
                             </View>
                             <Button title="Play" onPress={() => playSound(elem.uri)} />
-                            <Button title="STT" onPress={() => stt(elem.uri)} />
                         </View>
                     );
                 })
