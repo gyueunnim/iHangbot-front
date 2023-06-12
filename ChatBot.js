@@ -6,6 +6,7 @@ import { Audio } from "expo-av";
 function ChatBot({navigation}) {
     const [recording, setRecording] = useState();
     const [recordFileInfo, setRecordFileInfo] = useState([]);
+    const [sound, setSound] = useState();
     const recordFileInfoContainerFilePath = FileSystem.documentDirectory + "records.json";
 
     const startRecording = async () => {
@@ -48,7 +49,19 @@ function ChatBot({navigation}) {
         await FileSystem.writeAsStringAsync(recordFileInfoContainerFilePath, jsonStr);
     };
 
+    const playSound = async (soundUri) => {
+        try {
+            const { sound } = await Audio.Sound.createAsync({ uri: soundUri });
+            setSound(sound);
+            await sound.playAsync();
+        } catch (err) {
+            // TODO: Error handling
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
+        // Read metadata file for records
         const readRecordFileInfo = async () => {
             const fileInfo = await FileSystem.getInfoAsync(recordFileInfoContainerFilePath);
             if (fileInfo.exists) {
@@ -59,6 +72,11 @@ function ChatBot({navigation}) {
             }
         }
         readRecordFileInfo();
+        
+        // Unload sound
+        return sound ? () => {
+            sound.unloadAsync();
+        } : undefined;
     }, []);
 
     return (
@@ -67,6 +85,19 @@ function ChatBot({navigation}) {
             <Button title="Temp: To Report" onPress={() => navigation.navigate("Report")} />
             <Button title={recording ? "Temp: stopRecording" : "Temp: startRecording"}
                     onPress={recording ? stopRecording : startRecording} />
+            {
+                recordFileInfo.map((elem, idx) => {
+                    return (
+                        <View style={{ flexDirection: "row" }} key={idx}>
+                            <View>
+                                <Text>{elem.title}</Text>
+                                <Text>{elem.duration}</Text>
+                            </View>
+                            <Button title="Play" onPress={() => playSound(elem.uri)} />
+                        </View>
+                    );
+                })
+            }
         </View>
     );
 }
