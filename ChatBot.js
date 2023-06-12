@@ -18,7 +18,7 @@ function ChatBot({navigation}) {
                 playsInSilentModeIOS: true,
             });
             const recordOption = Audio.RecordingOptionsPresets.HIGH_QUALITY;
-            recordOption.android.extension = ".mp3";
+            recordOption.android.extension = ".wav";
             const { recording } = await Audio.Recording.createAsync(recordOption);
             setRecording(recording);
         } catch (err) {
@@ -95,6 +95,7 @@ function ChatBot({navigation}) {
                                 <Text>{elem.duration}</Text>
                             </View>
                             <Button title="Play" onPress={() => playSound(elem.uri)} />
+                            <Button title="STT" onPress={() => stt(elem.uri)} />
                         </View>
                     );
                 })
