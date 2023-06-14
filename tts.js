@@ -1,6 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 import qs from 'qs';
+import { Audio } from 'expo-av';
 
 const clientId = '9xqwkzpxel';
 const clientSecret = 'zrYEtuW4TC3KM7PPopOuZVQo6gE3pY9Uuor6eN4G';
@@ -36,6 +37,14 @@ export default async function tts(chatResponse) {
 
             await FileSystem.writeAsStringAsync(fileUri, data, { encoding: FileSystem.EncodingType.Base64 });
             console.log(fileUri);
+
+            
+            /* test */
+            const soundObject = new Audio.Sound();
+            await soundObject.loadAsync({ uri: fileUri });
+            await soundObject.playAsync();
+
+            
 
             return fileUri;
         } catch (error) {

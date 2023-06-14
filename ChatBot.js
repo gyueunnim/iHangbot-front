@@ -3,6 +3,7 @@ import { Button, Text, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import stt from "./stt.js";
+import tts from "./tts.js";
 
 function ChatBot({navigation}) {
     const [recording, setRecording] = useState();
@@ -86,6 +87,7 @@ function ChatBot({navigation}) {
 
     return (
         <View style={ { alignItems: "center", justifyContent: "center" } }>
+            <Text onPress={() => tts()}>Test</Text>
             <Button title="Temp: To Report" onPress={() => navigation.navigate("Report")} />
             <Button title={recording ? "Temp: stopRecording" : "Temp: startRecording"}
                     onPress={recording ? stopRecording : startRecording} />
