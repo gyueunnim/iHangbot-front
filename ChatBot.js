@@ -7,9 +7,9 @@ import tts from "./tts.js";
 
 function ChatBot({navigation}) {
     const [recording, setRecording] = useState();
-    const [recordFileInfo, setRecordFileInfo] = useState([]);
+    const [chatInfo, setChatInfo] = useState([]);
     const [sound, setSound] = useState();
-    const recordFileInfoContainerFilePath = FileSystem.documentDirectory + "records.json";
+    const chatInfoContainerFilePath = FileSystem.documentDirectory + "chat_info.json";
 
     const startRecording = async () => {
         try {
@@ -53,20 +53,20 @@ function ChatBot({navigation}) {
         // Do STT job
         const sttResult = await stt(uri);
 
-        // Add the record info to recordFileInfo
-        const newRecordFileInfo = [...recordFileInfo];
-        newRecordFileInfo.push({
-            title: `child-${recordFileInfo.length + 1}`,
+        // Add the chat info to chatInfo state
+        const newChatInfo = [...chatInfo];
+        newChatInfo.push({
+            title: `child-${chatInfo.length + 1}`,
             uri: uri,
             duration: status.durationMillis,
             text: sttResult.text
         });
-        console.log(newRecordFileInfo);
-        setRecordFileInfo(newRecordFileInfo);
+        console.log(newChatInfo);
+        setChatInfo(newChatInfo);
 
         // Write metadata
-        const jsonStr = JSON.stringify(newRecordFileInfo, null, 4);
-        await FileSystem.writeAsStringAsync(recordFileInfoContainerFilePath, jsonStr);
+        const jsonStr = JSON.stringify(newChatInfo, null, 4);
+        await FileSystem.writeAsStringAsync(chatInfoContainerFilePath, jsonStr);
     };
 
     const playSound = async (soundUri) => {
@@ -81,17 +81,17 @@ function ChatBot({navigation}) {
     };
 
     useEffect(() => {
-        // Read metadata file for records
-        const readRecordFileInfo = async () => {
-            const fileInfo = await FileSystem.getInfoAsync(recordFileInfoContainerFilePath);
+        // Read metadata file for chat info
+        const readChatInfo = async () => {
+            const fileInfo = await FileSystem.getInfoAsync(chatInfoContainerFilePath);
             if (fileInfo.exists) {
-                const content = await FileSystem.readAsStringAsync(recordFileInfoContainerFilePath);
-                setRecordFileInfo(JSON.parse(content));
+                const content = await FileSystem.readAsStringAsync(chatInfoContainerFilePath);
+                setChatInfo(JSON.parse(content));
             } else {
-                await FileSystem.writeAsStringAsync(recordFileInfoContainerFilePath, "[]");
+                await FileSystem.writeAsStringAsync(chatInfoContainerFilePath, "[]");
             }
         }
-        readRecordFileInfo();
+        readChatInfo();
         
         // Unload sound
         return sound ? () => {
@@ -106,7 +106,7 @@ function ChatBot({navigation}) {
             <Button title={recording ? "Temp: stopRecording" : "Temp: startRecording"}
                     onPress={recording ? stopRecording : startRecording} />
             {
-                recordFileInfo.map((elem, idx) => {
+                chatInfo.map((elem, idx) => {
                     return (
                         <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }} key={idx}>
                             <View>
