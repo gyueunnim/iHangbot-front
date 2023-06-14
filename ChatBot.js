@@ -28,6 +28,20 @@ function ChatBot({navigation}) {
         }
     };
 
+    /**
+     * Query to GPT given a query statement.
+     * The query statement should be the STT response.
+     * This is an async function.
+     * @param {string} query to send to GPT. It would be the STT response
+     * @returns response of GPT
+     */
+    const queryToGPT = async (query) => {
+        // Insert the function to send request to GPT server here later
+        // const response = await gpt(query);
+        const tempResponse = "안녕! 나는 ChatGPT라고 해! 너를 도와줄 수 있는데, 어떤 일을 도와줄까? 무엇이 궁금한 거야?";
+        return tempResponse;
+    }
+
     const stopRecording = async () => {
         const status = await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({
