@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, Text, View } from "react-native";
+import { Button, Pressable, Text, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import stt from "./stt.js";
 import tts from "./tts.js";
+
+const tempGPTResponse = "이게 지금 뭐 하자는 거지?";
 
 function ChatBot({navigation}) {
     const [recording, setRecording] = useState();
@@ -38,8 +40,8 @@ function ChatBot({navigation}) {
     const queryToGPT = async (query) => {
         // Insert the function to send request to GPT server here later
         // const response = await gpt(query);
-        const tempResponse = "안녕! 나는 ChatGPT라고 해! 너를 도와줄 수 있는데, 어떤 일을 도와줄까? 무엇이 궁금한 거야?";
-        return tempResponse;
+        const response = tempGPTResponse;
+        return response;
     }
 
     const stopRecording = async () => {
@@ -51,15 +53,32 @@ function ChatBot({navigation}) {
         setRecording(undefined);
 
         // Do STT job
-        const sttResult = await stt(uri);
+        const sttResponse = await stt(uri);
+        const sttText = sttResponse.text;
+
+        const chatbotResponse = await queryToGPT(sttText);
+
+        // Do TTS job
+        const ttsResponse = await tts(chatbotResponse);
 
         // Add the chat info to chatInfo state
         const newChatInfo = [...chatInfo];
+        const id = chatInfo.length + 1
         newChatInfo.push({
-            title: `child-${chatInfo.length + 1}`,
+            title: `chat-${id}`,
+            chatbot: false,
+            order: id,
             uri: uri,
             duration: status.durationMillis,
-            text: sttResult.text
+            text: sttText
+        });
+        newChatInfo.push({
+            title: `chat-${id + 1}`,
+            chatbot: true,
+            order: id + 1,
+            uri: ttsResponse,
+            duration: 0,
+            text: chatbotResponse
         });
         console.log(newChatInfo);
         setChatInfo(newChatInfo);
@@ -67,6 +86,9 @@ function ChatBot({navigation}) {
         // Write metadata
         const jsonStr = JSON.stringify(newChatInfo, null, 4);
         await FileSystem.writeAsStringAsync(chatInfoContainerFilePath, jsonStr);
+
+        // Play the sound of the response of TTS provided by chatbot response
+        playSound(ttsResponse);
     };
 
     const playSound = async (soundUri) => {
@@ -101,20 +123,18 @@ function ChatBot({navigation}) {
 
     return (
         <View style={ { alignItems: "center", justifyContent: "center" } }>
-            <Text onPress={() => tts().then((result) => playSound(result))}>Test</Text>
+            <Text onPress={() => tts(tempGPTResponse).then((result) => playSound(result))}>Test</Text>
             <Button title="Temp: To Report" onPress={() => navigation.navigate("Report")} />
             <Button title={recording ? "Temp: stopRecording" : "Temp: startRecording"}
                     onPress={recording ? stopRecording : startRecording} />
             {
                 chatInfo.map((elem, idx) => {
                     return (
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }} key={idx}>
-                            <View>
+                        <View style={{ flexDirection: "row", justifyContent: elem.chatbot ? "flex-start" : "flex-end", width: "100%" }} key={idx}>
+                            <Pressable onPress={() => playSound(elem.uri)}>
                                 <Text>{elem.title}</Text>
-                                <Text>{elem.duration}</Text>
                                 <Text>{elem.text}</Text>
-                            </View>
-                            <Button title="Play" onPress={() => playSound(elem.uri)} />
+                            </Pressable>
                         </View>
                     );
                 })
