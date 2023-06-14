@@ -87,7 +87,7 @@ function ChatBot({navigation}) {
 
     return (
         <View style={ { alignItems: "center", justifyContent: "center" } }>
-            <Text onPress={() => tts()}>Test</Text>
+            <Text onPress={() => tts().then((result) => playSound(result))}>Test</Text>
             <Button title="Temp: To Report" onPress={() => navigation.navigate("Report")} />
             <Button title={recording ? "Temp: stopRecording" : "Temp: startRecording"}
                     onPress={recording ? stopRecording : startRecording} />

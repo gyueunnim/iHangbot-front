@@ -36,15 +36,6 @@ export default async function tts(chatResponse) {
             const fileUri = FileSystem.documentDirectory + 'test.mp3'; // 수정
 
             await FileSystem.writeAsStringAsync(fileUri, data, { encoding: FileSystem.EncodingType.Base64 });
-            console.log(fileUri);
-
-            
-            /* test */
-            const soundObject = new Audio.Sound();
-            await soundObject.loadAsync({ uri: fileUri });
-            await soundObject.playAsync();
-
-            
 
             return fileUri;
         } catch (error) {
