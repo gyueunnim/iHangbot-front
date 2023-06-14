@@ -9,14 +9,12 @@ const url = 'https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts';
 
 export default async function tts(chatResponse) {
     try {
-        // temp -> chatResponse
-        let chatTemp = "안녕! 나는 ChatGPT라고 해! 너를 도와줄 수 있는데, 어떤 일을 도와줄까? 무엇이 궁금한 거야?";
         const formData = { 
             speaker: 'nara',
             volume: '0', 
             speed: '0', 
             pitch: '0', 
-            text: chatTemp, 
+            text: chatResponse, 
             format: 'mp3' 
           };
             
@@ -36,15 +34,6 @@ export default async function tts(chatResponse) {
             const fileUri = FileSystem.documentDirectory + 'test.mp3'; // 수정
 
             await FileSystem.writeAsStringAsync(fileUri, data, { encoding: FileSystem.EncodingType.Base64 });
-            console.log(fileUri);
-
-            
-            /* test */
-            const soundObject = new Audio.Sound();
-            await soundObject.loadAsync({ uri: fileUri });
-            await soundObject.playAsync();
-
-            
 
             return fileUri;
         } catch (error) {
