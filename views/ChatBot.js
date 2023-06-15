@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import stt from "../modules/stt.js";
 import tts from "../modules/tts.js";
@@ -13,9 +12,9 @@ function ChatBot({navigation}) {
     
 
     const [recording, setRecording] = useState();
-    const [chatInfo, setChatInfo] = useState([]);
+    const [userChat, setUserChat] = useState({ text: "", audioUri: null });
+    const [chatbotChat, setChatbotChat] = useState({ text: "", audioUri: null });
     const [sound, setSound] = useState();
-    const chatInfoContainerFilePath = FileSystem.documentDirectory + "chat_info.json";
 
     const startRecording = async () => {
         setTtsLoading(true);
@@ -56,12 +55,16 @@ function ChatBot({navigation}) {
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
         });
-        const uri = recording.getURI();
+        const userVoiceUri = recording.getURI();
         setRecording(undefined);
 
         // Do STT job
-        const sttResponse = await stt(uri);
+        const sttResponse = await stt(userVoiceUri);
         const sttText = sttResponse.text;
+        setUserChat({
+            text: sttText,
+            audioUri: userVoiceUri
+        });
 
         const chatbotResponse = await queryToGPT(sttText);
 
@@ -69,32 +72,10 @@ function ChatBot({navigation}) {
         const ttsResponse = await tts(chatbotResponse);
 
         setSttLoading(false);
-
-        // Add the chat info to chatInfo state
-        const newChatInfo = [...chatInfo];
-        const id = chatInfo.length + 1
-        newChatInfo.push({
-            title: `chat-${id}`,
-            chatbot: false,
-            order: id,
-            uri: uri,
-            duration: status.durationMillis,
-            text: sttText
+        setChatbotChat({
+            text: chatbotResponse,
+            audioUri: ttsResponse
         });
-        newChatInfo.push({
-            title: `chat-${id + 1}`,
-            chatbot: true,
-            order: id + 1,
-            uri: ttsResponse,
-            duration: 0,
-            text: chatbotResponse
-        });
-        console.log(newChatInfo);
-        setChatInfo(newChatInfo);
-
-        // Write metadata
-        const jsonStr = JSON.stringify(newChatInfo, null, 4);
-        await FileSystem.writeAsStringAsync(chatInfoContainerFilePath, jsonStr);
 
         // Play the sound of the response of TTS provided by chatbot response
         playSound(ttsResponse);
@@ -112,18 +93,6 @@ function ChatBot({navigation}) {
     };
 
     useEffect(() => {
-        // Read metadata file for chat info
-        const readChatInfo = async () => {
-            const fileInfo = await FileSystem.getInfoAsync(chatInfoContainerFilePath);
-            if (fileInfo.exists) {
-                const content = await FileSystem.readAsStringAsync(chatInfoContainerFilePath);
-                setChatInfo(JSON.parse(content));
-            } else {
-                await FileSystem.writeAsStringAsync(chatInfoContainerFilePath, "[]");
-            }
-        }
-        readChatInfo();
-        
         // Unload sound
         return sound ? () => {
             sound.unloadAsync();
@@ -137,11 +106,7 @@ function ChatBot({navigation}) {
                 {
                     ttsLoading === true 
                     ? <Text>말하는 중...</Text>
-                    : (
-                        chatInfo.length >= 2
-                        ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 2].uri)}>{chatInfo[chatInfo.length - 2].text}</Text>
-                        : null
-                    )
+                    : <Text onPress={() => playSound(userChat.audioUri)}>{userChat.text}</Text>
                 }
             </View>
             <View style={styles.chatboxChatBox}>
@@ -149,11 +114,7 @@ function ChatBot({navigation}) {
                 {
                     sttLoading === true 
                     ? <Text>대답을 생각하는중...</Text>
-                    : (
-                        chatInfo.length >= 2
-                        ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 1].uri)}>{chatInfo[chatInfo.length - 1].text}</Text>
-                        : null
-                    )
+                    : <Text onPress={() => playSound(chatbotChat.audioUri)}>{chatbotChat.text}</Text>
                 }
             </View>
             <View style={styles.bottomSpace}>
