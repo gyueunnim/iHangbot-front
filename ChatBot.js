@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Pressable, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import stt from "./stt.js";
@@ -122,25 +122,49 @@ function ChatBot({navigation}) {
     }, []);
 
     return (
-        <View style={ { alignItems: "center", justifyContent: "center" } }>
-            <Text onPress={() => tts(tempGPTResponse).then((result) => playSound(result))}>Test</Text>
-            <Button title="Temp: To Report" onPress={() => navigation.navigate("Report")} />
-            <Button title={recording ? "Temp: stopRecording" : "Temp: startRecording"}
-                    onPress={recording ? stopRecording : startRecording} />
-            {
-                chatInfo.map((elem, idx) => {
-                    return (
-                        <View style={{ flexDirection: "row", justifyContent: elem.chatbot ? "flex-start" : "flex-end", width: "100%" }} key={idx}>
-                            <Pressable onPress={() => playSound(elem.uri)}>
-                                <Text>{elem.title}</Text>
-                                <Text>{elem.text}</Text>
-                            </Pressable>
-                        </View>
-                    );
-                })
-            }
+        <View style={styles.container}>
+            <View style={styles.userChatBox}>
+                <Text>{chatInfo[chatInfo.length - 2].text}</Text>
+            </View>
+            <View style={styles.chatboxChatBox}>
+                <Text>{chatInfo[chatInfo.length - 1].text}</Text>
+            </View>
+            <View style={ styles.bottomSpace }>
+                <TouchableOpacity style={ styles.btnInput }>
+
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#f1f3f5",
+        width: "100%",
+        height: "100%",
+        paddingTop: 20,
+        flexDirection: "column"
+    },
+    userChatBox: {
+        flex: 1
+    },
+    chatboxChatBox: {
+        flex: 1
+    },
+    bottomSpace: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    btnInput: {
+        width: 100,
+        height: 100,
+        backgroundColor: "black",
+    },
+    txtChat: {
+        
+    }
+});
 
 export default ChatBot;
