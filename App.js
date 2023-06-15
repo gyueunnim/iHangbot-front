@@ -5,10 +5,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 /* screen */
-import Login from './Login';
-import SignUp from './SignUp';
-import ChatBot from './ChatBot';
-import Report from './Report';
+import Login from './views/Login';
+import SignUp from './views/SignUp';
+import ChatBot from './views/ChatBot';
+import Report from './views/Report';
 
 
 export default function App() {

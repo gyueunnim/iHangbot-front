@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import btnStyles from "./btnStyles";
+import btnStyles from "../btnStyles";
 
 function Login({navigation}) {
     const [id, setId] = useState("");
