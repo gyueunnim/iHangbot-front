@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import stt from "../modules/stt.js";
@@ -124,13 +124,22 @@ function ChatBot({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.userChatBox}>
-                <Text onPress={() => playSound(chatInfo[chatInfo.length - 2].uri)}>{chatInfo[chatInfo.length - 2].text}</Text>
+                {
+                    chatInfo.length >= 2
+                    ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 2].uri)}>{chatInfo[chatInfo.length - 2].text}</Text>
+                    : null
+                }
             </View>
             <View style={styles.chatboxChatBox}>
-                <Text onPress={() => playSound(chatInfo[chatInfo.length - 1].uri)}>{chatInfo[chatInfo.length - 1].text}</Text>
+                {
+                    chatInfo.length >= 2
+                    ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 1].uri)}>{chatInfo[chatInfo.length - 1].text}</Text>
+                    : null
+                }
             </View>
-            <View style={ styles.bottomSpace }>
-                <TouchableOpacity style={ styles.btnInput }>
+            <View style={styles.bottomSpace}>
+                <TouchableOpacity style={styles.btnInput} onPress={recording ? stopRecording : startRecording}
+                onLongPress={() => navigation.navigate("Report")} delayLongPress={5000}>
                 </TouchableOpacity>
             </View>
         </View>
