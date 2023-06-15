@@ -124,14 +124,13 @@ function ChatBot({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.userChatBox}>
-                <Text>{chatInfo[chatInfo.length - 2].text}</Text>
+                <Text onPress={() => playSound(chatInfo[chatInfo.length - 2].uri)}>{chatInfo[chatInfo.length - 2].text}</Text>
             </View>
             <View style={styles.chatboxChatBox}>
-                <Text>{chatInfo[chatInfo.length - 1].text}</Text>
+                <Text onPress={() => playSound(chatInfo[chatInfo.length - 1].uri)}>{chatInfo[chatInfo.length - 1].text}</Text>
             </View>
             <View style={ styles.bottomSpace }>
                 <TouchableOpacity style={ styles.btnInput }>
-
                 </TouchableOpacity>
             </View>
         </View>
@@ -147,9 +146,11 @@ const styles = StyleSheet.create({
         flexDirection: "column"
     },
     userChatBox: {
+        backgroundColor: "#74c0fc",
         flex: 1
     },
     chatboxChatBox: {
+        backgroundColor: "#a5d8ff",
         flex: 1
     },
     bottomSpace: {

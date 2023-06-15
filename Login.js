@@ -22,6 +22,11 @@ function Login({navigation}) {
         navigation.navigate("ChatBot");
     };
 
+    // TODO: Delete this part after testing
+    useEffect(() => {
+        navigation.navigate("ChatBot");
+    }, []);
+
     useEffect(() => {
         (id !== "") && (password !== "") ? setBtnStyle(btnStyles.btnActive) : setBtnStyle(btnStyles.btnDisabled);
     }, [id, password]);
