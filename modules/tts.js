@@ -30,9 +30,7 @@ export default async function tts(chatResponse) {
             const data = response.request._response;
             
 
-            const fileUri = FileSystem.documentDirectory + 'test.mp3'; // 수정
-            const fileInfo = await FileSystem.getInfoAsync(fileUri);
-            console.log(fileInfo);
+            const fileUri = FileSystem.documentDirectory + 'chatResponse.mp3'; 
 
             await FileSystem.writeAsStringAsync(fileUri, data, { encoding: FileSystem.EncodingType.Base64 });
 
