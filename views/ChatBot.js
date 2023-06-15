@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import stt from "../modules/stt.js";
@@ -133,6 +133,7 @@ function ChatBot({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.userChatBox}>
+                <Image source={require('../assets/child_Icon.png')} style={styles.chatIcon}/>
                 {
                     ttsLoading === true 
                     ? <Text>말하는 중...</Text>
@@ -144,6 +145,7 @@ function ChatBot({navigation}) {
                 }
             </View>
             <View style={styles.chatboxChatBox}>
+                <Image source={require('../assets/chatbot_Icon.png')} style={styles.chatIcon}/>
                 {
                     sttLoading === true 
                     ? <Text>대답을 생각하는중...</Text>
@@ -155,8 +157,9 @@ function ChatBot({navigation}) {
                 }
             </View>
             <View style={styles.bottomSpace}>
-                <TouchableOpacity style={styles.btnInput} onPress={recording ? stopRecording : startRecording}
+                <TouchableOpacity onPress={recording ? stopRecording : startRecording}
                 onLongPress={() => navigation.navigate("Report")} delayLongPress={5000}>
+                    <Image source={require('../assets/input_Icon.png')} style={{width: 125, height: 125}}/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -177,7 +180,8 @@ const styles = StyleSheet.create({
     },
     chatboxChatBox: {
         backgroundColor: "#a5d8ff",
-        flex: 1
+        flex: 1,
+        flexDirection: 'row'
     },
     bottomSpace: {
         flex: 1,
@@ -191,6 +195,11 @@ const styles = StyleSheet.create({
     },
     txtChat: {
         
+    },
+    chatIcon: {
+        width: 25,
+        height: 25,
+        margin: 10
     }
 });
 
