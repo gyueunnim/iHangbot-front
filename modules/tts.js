@@ -9,9 +9,9 @@ const url = 'https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts';
 export default async function tts(chatResponse) {
     try {
         const formData = { 
-            speaker: 'nara',
+            speaker: 'ndain',
             volume: '0', 
-            speed: '0', 
+            speed: '-2', 
             pitch: '0', 
             text: chatResponse, 
             format: 'mp3' 
@@ -31,6 +31,8 @@ export default async function tts(chatResponse) {
             
 
             const fileUri = FileSystem.documentDirectory + 'test.mp3'; // 수정
+            const fileInfo = await FileSystem.getInfoAsync(fileUri);
+            console.log(fileInfo);
 
             await FileSystem.writeAsStringAsync(fileUri, data, { encoding: FileSystem.EncodingType.Base64 });
 

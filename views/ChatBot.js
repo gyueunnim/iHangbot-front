@@ -5,7 +5,7 @@ import { Audio } from "expo-av";
 import stt from "../modules/stt.js";
 import tts from "../modules/tts.js";
 
-const tempGPTResponse = "이게 지금 뭐 하자는 거지?";
+const tempGPTResponse = `무슨 게임을 좋아해? 나는 자동차 게임을 좋아해! 같이 놀면 재미있을 거야!`;
 
 function ChatBot({navigation}) {
     const [recording, setRecording] = useState();
