@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
 import stt from "../modules/stt.js";
@@ -8,12 +8,17 @@ import tts from "../modules/tts.js";
 const tempGPTResponse = `무슨 게임을 좋아해? 나는 자동차 게임을 좋아해! 같이 놀면 재미있을 거야!`;
 
 function ChatBot({navigation}) {
+    const [ttsLoading, setTtsLoading] = useState(false);
+    const [sttLoading, setSttLoading] = useState(false);
+    
+
     const [recording, setRecording] = useState();
     const [chatInfo, setChatInfo] = useState([]);
     const [sound, setSound] = useState();
     const chatInfoContainerFilePath = FileSystem.documentDirectory + "chat_info.json";
 
     const startRecording = async () => {
+        setTtsLoading(true);
         try {
             await Audio.requestPermissionsAsync();
             await Audio.setAudioModeAsync({
@@ -45,6 +50,8 @@ function ChatBot({navigation}) {
     }
 
     const stopRecording = async () => {
+        setTtsLoading(false);
+        setSttLoading(true);
         const status = await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
@@ -60,6 +67,8 @@ function ChatBot({navigation}) {
 
         // Do TTS job
         const ttsResponse = await tts(chatbotResponse);
+
+        setSttLoading(false);
 
         // Add the chat info to chatInfo state
         const newChatInfo = [...chatInfo];
@@ -124,22 +133,33 @@ function ChatBot({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.userChatBox}>
+                <Image source={require('../assets/child_Icon.png')} style={styles.chatIcon}/>
                 {
-                    chatInfo.length >= 2
-                    ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 2].uri)}>{chatInfo[chatInfo.length - 2].text}</Text>
-                    : null
+                    ttsLoading === true 
+                    ? <Text>말하는 중...</Text>
+                    : (
+                        chatInfo.length >= 2
+                        ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 2].uri)}>{chatInfo[chatInfo.length - 2].text}</Text>
+                        : null
+                    )
                 }
             </View>
             <View style={styles.chatboxChatBox}>
+                <Image source={require('../assets/chatbot_Icon.png')} style={styles.chatIcon}/>
                 {
-                    chatInfo.length >= 2
-                    ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 1].uri)}>{chatInfo[chatInfo.length - 1].text}</Text>
-                    : null
+                    sttLoading === true 
+                    ? <Text>대답을 생각하는중...</Text>
+                    : (
+                        chatInfo.length >= 2
+                        ? <Text onPress={() => playSound(chatInfo[chatInfo.length - 1].uri)}>{chatInfo[chatInfo.length - 1].text}</Text>
+                        : null
+                    )
                 }
             </View>
             <View style={styles.bottomSpace}>
-                <TouchableOpacity style={styles.btnInput} onPress={recording ? stopRecording : startRecording}
+                <TouchableOpacity onPress={recording ? stopRecording : startRecording}
                 onLongPress={() => navigation.navigate("Report")} delayLongPress={5000}>
+                    <Image source={require('../assets/input_Icon.png')} style={{width: 125, height: 125}}/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -160,7 +180,8 @@ const styles = StyleSheet.create({
     },
     chatboxChatBox: {
         backgroundColor: "#a5d8ff",
-        flex: 1
+        flex: 1,
+        flexDirection: 'row'
     },
     bottomSpace: {
         flex: 1,
@@ -174,6 +195,11 @@ const styles = StyleSheet.create({
     },
     txtChat: {
         
+    },
+    chatIcon: {
+        width: 25,
+        height: 25,
+        margin: 10
     }
 });
 
