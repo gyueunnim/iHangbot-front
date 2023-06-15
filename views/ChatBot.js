@@ -7,8 +7,8 @@ import tts from "../modules/tts.js";
 const tempGPTResponse = `무슨 게임을 좋아해? 나는 자동차 게임을 좋아해! 같이 놀면 재미있을 거야!`;
 
 function ChatBot({navigation}) {
-    const [ttsLoading, setTtsLoading] = useState(false);
     const [sttLoading, setSttLoading] = useState(false);
+    const [ttsLoading, setTtsLoading] = useState(false);
     
 
     const [recording, setRecording] = useState();
@@ -17,7 +17,7 @@ function ChatBot({navigation}) {
     const [sound, setSound] = useState();
 
     const startRecording = async () => {
-        setTtsLoading(true);
+        setSttLoading(true);
         try {
             await Audio.requestPermissionsAsync();
             await Audio.setAudioModeAsync({
@@ -49,8 +49,8 @@ function ChatBot({navigation}) {
     }
 
     const stopRecording = async () => {
-        setTtsLoading(false);
-        setSttLoading(true);
+        setSttLoading(false);
+        setTtsLoading(true);
         const status = await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
@@ -71,7 +71,7 @@ function ChatBot({navigation}) {
         // Do TTS job
         const ttsResponse = await tts(chatbotResponse);
 
-        setSttLoading(false);
+        setTtsLoading(false);
         setChatbotChat({
             text: chatbotResponse,
             audioUri: ttsResponse
@@ -104,7 +104,7 @@ function ChatBot({navigation}) {
             <View style={styles.userChatBox}>
                 <Image source={require('../assets/child_Icon.png')} style={styles.chatIcon}/>
                 {
-                    ttsLoading === true 
+                    sttLoading === true 
                     ? <Text>말하는 중...</Text>
                     : <Text onPress={() => playSound(userChat.audioUri)}>{userChat.text}</Text>
                 }
@@ -112,7 +112,7 @@ function ChatBot({navigation}) {
             <View style={styles.chatboxChatBox}>
                 <Image source={require('../assets/chatbot_Icon.png')} style={styles.chatIcon}/>
                 {
-                    sttLoading === true 
+                    ttsLoading === true 
                     ? <Text>대답을 생각하는중...</Text>
                     : <Text onPress={() => playSound(chatbotChat.audioUri)}>{chatbotChat.text}</Text>
                 }
