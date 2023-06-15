@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
-import btnStyles from "./btnStyles";
+import btnStyles from "../btnStyles";
 
 function SignUp() {
     const [name, setName] = useState("");

@@ -1,7 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 import qs from 'qs';
-import { Audio } from 'expo-av';
 
 const clientId = '9xqwkzpxel';
 const clientSecret = 'zrYEtuW4TC3KM7PPopOuZVQo6gE3pY9Uuor6eN4G';

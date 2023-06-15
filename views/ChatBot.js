@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Audio } from "expo-av";
-import stt from "./stt.js";
-import tts from "./tts.js";
+import stt from "../modules/stt.js";
+import tts from "../modules/tts.js";
 
 const tempGPTResponse = "이게 지금 뭐 하자는 거지?";
 
