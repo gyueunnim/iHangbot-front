@@ -43,22 +43,34 @@ function SignUp() {
     return (
         <View style={formStyles.container}>
             <View style={formStyles.inputContainer}>
-                <Text style={formStyles.label}>아이 이름</Text>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>아이 이름</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
                 <TextInput style={formStyles.input} placeholder="아이 이름을 입력하세요"
                         onChangeText={(text) => setName(text)}/>
             </View>
             <View style={formStyles.inputContainer}>
-                <Text style={formStyles.label}>아이디</Text>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>아이디</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
                 <TextInput style={formStyles.input} placeholder="아이디를 입력하세요"
                         onChangeText={(text) => setId(text)}/>
             </View>
             <View style={formStyles.inputContainer}>
-                <Text style={formStyles.label}>비밀번호</Text>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>비밀번호</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
                 <TextInput style={formStyles.input} placeholder="비밀번호를 입력하세요"
                         secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
             </View>
             <View style={formStyles.inputContainer}>
-                <Text style={formStyles.label}>비밀번호 확인</Text>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>비밀번호 확인</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
                 <TextInput style={formStyles.input} placeholder="비밀번호를 다시 한번 입력하세요"
                         secureTextEntry={true} onChangeText={(text) => setCheckPassword(text)}/>
             </View>

@@ -14,8 +14,15 @@ const formStyles = StyleSheet.create({
         justifyContent: "flex-start",
         gap: 4
     },
+    labelContainer: {
+        flexDirection: "row",
+        gap: 4
+    },
     label: {
         color: "#868e96"
+    },
+    requiredInput: {
+        color: "#f03e3e"
     },
     input: {
         padding: 15,
