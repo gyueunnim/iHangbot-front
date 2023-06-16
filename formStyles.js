@@ -6,19 +6,26 @@ const formStyles = StyleSheet.create({
         height: "100%",
         alignItems: "center",
         justifyContent: "center",
+        paddingHorizontal: 33,
+        gap: 12
     },
     inputContainer: {
         width: "100%",
         justifyContent: "flex-start",
+        gap: 4
     },
     label: {
 
     },
     input: {
+        padding: 15,
+        borderWidth: 1,
     },
     btnContainer: {
         width: "100%",
+        backgroundColor: "red",
         justifyContent: "flex-start",
+        gap: 4
     },
     btnLogin: {
         alignItems: "center",
