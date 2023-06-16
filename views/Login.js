@@ -45,13 +45,13 @@ function Login({navigation}) {
             </View>
             <View style={formStyles.btnContainer}>
                 <TouchableOpacity
-                        style={formStyles.btnLogin}
+                        style={[formStyles.btnLogin, btnStyle]}
                         onPress={ (e) => {
                             // 서버 API 호출 대체 예정
                             // id, password가 올바른 경우 tempSuccess() 프로시저 호출 (ChatBot 컴포넌트로 이동)
                             (id === "test") && (password === "test123") ? tempSuccess() : checkAlert();
                         } }>
-                    <Text style={btnStyle}>로그인</Text>
+                    <Text style={formStyles.btnText}>로그인</Text>
                 </TouchableOpacity>
                 <Pressable
                         onPress={ (e) => {

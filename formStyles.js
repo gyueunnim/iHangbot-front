@@ -20,10 +20,10 @@ const formStyles = StyleSheet.create({
     input: {
         padding: 15,
         borderWidth: 1,
+        
     },
     btnContainer: {
         width: "100%",
-        backgroundColor: "red",
         justifyContent: "flex-start",
         gap: 4
     },
@@ -31,14 +31,14 @@ const formStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    btnDisabled: {
+    btnText: {
         padding: 10,
-        color: 'white',
+        color: 'white'
+    },
+    btnDisabled: {
         backgroundColor: "#8eb4d7"
     },
     btnActive: {
-        padding: 10,
-        color: 'white',
         backgroundColor: "#003d99"
     }
 });
