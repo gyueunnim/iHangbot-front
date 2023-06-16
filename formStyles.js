@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const formStyles = StyleSheet.create({
     container: {
         width: "100%",
-        height: "100%",
+        height: "90%",
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 33,
@@ -27,6 +27,7 @@ const formStyles = StyleSheet.create({
     btnContainer: {
         width: "100%",
         justifyContent: "flex-start",
+        marginTop: 12,
         gap: 4
     },
     btnLogin: {
