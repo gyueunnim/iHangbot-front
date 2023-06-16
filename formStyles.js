@@ -23,6 +23,16 @@ const formStyles = StyleSheet.create({
     btnLogin: {
         alignItems: "center",
         justifyContent: "center",
+    },
+    btnDisabled: {
+        padding: 10,
+        color: 'white',
+        backgroundColor: "#8eb4d7"
+    },
+    btnActive: {
+        padding: 10,
+        color: 'white',
+        backgroundColor: "#003d99"
     }
 });
 

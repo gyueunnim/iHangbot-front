@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
-import btnStyles from "../btnStyles";
+import formStyles from "../formStyles";
 
 function SignUp() {
     const [name, setName] = useState("");
@@ -36,7 +36,7 @@ function SignUp() {
    )};
 
    useEffect(() => {
-       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnStyle(btnStyles.btnActive) : setBtnStyle(btnStyles.btnDisabled)
+       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled)
    }, [name, id, password, checkPassword])
 
 
