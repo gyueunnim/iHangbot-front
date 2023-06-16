@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import btnStyles from "../btnStyles";
+import formStyles from "../formStyles";
 
 function Login({navigation}) {
     const [id, setId] = useState("");
@@ -23,34 +24,43 @@ function Login({navigation}) {
     };
 
     // TODO: Delete this part after testing
-    useEffect(() => {
-        navigation.navigate("ChatBot");
-    }, []);
+    // useEffect(() => {
+    //     navigation.navigate("ChatBot");
+    // }, []);
 
     useEffect(() => {
         (id !== "") && (password !== "") ? setBtnStyle(btnStyles.btnActive) : setBtnStyle(btnStyles.btnDisabled);
     }, [id, password]);
 
     return (
-        <View>
-            <Text>아이디</Text>
-            <TextInput placeholder="아이디를 입력하세요" onChangeText={(text) => setId(text)}/>
-            <Text>비밀번호</Text>
-            <TextInput placeholder="비밀번호를 입력하세요" secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
-            <TouchableOpacity
-                    onPress={ (e) => {
-                        // 서버 API 호출 대체 예정
-                        // id, password가 올바른 경우 tempSuccess() 프로시저 호출 (ChatBot 컴포넌트로 이동)
-                        (id === "test") && (password === "test123") ? tempSuccess() : checkAlert();
-                    } }>
-                <Text style={btnStyle}>로그인</Text>
-            </TouchableOpacity>
-            <Pressable
-                    onPress={ (e) => {
-                        navigation.navigate('SignUp');
-                    } }>
-                <Text>회원가입</Text>
-            </Pressable>
+        <View style={formStyles.container}>
+            <View style={formStyles.inputContainer}>
+                <Text style={formStyles.label}>아이디</Text>
+                <TextInput style={formStyles.input} placeholder="아이디를 입력하세요"
+                        onChangeText={(text) => setId(text)}/>
+            </View>
+            <View style={formStyles.inputContainer}>
+                <Text style={formStyles.label}>비밀번호</Text>
+                <TextInput style={formStyles.input} placeholder="비밀번호를 입력하세요"
+                        secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
+            </View>
+            <View style={formStyles.btnContainer}>
+                <TouchableOpacity
+                        style={formStyles.btnLogin}
+                        onPress={ (e) => {
+                            // 서버 API 호출 대체 예정
+                            // id, password가 올바른 경우 tempSuccess() 프로시저 호출 (ChatBot 컴포넌트로 이동)
+                            (id === "test") && (password === "test123") ? tempSuccess() : checkAlert();
+                        } }>
+                    <Text style={btnStyle}>로그인</Text>
+                </TouchableOpacity>
+                <Pressable
+                        onPress={ (e) => {
+                            navigation.navigate('SignUp');
+                        } }>
+                    <Text>회원가입</Text>
+                </Pressable>
+            </View>
         </View>
     );
 }
