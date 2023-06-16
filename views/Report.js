@@ -74,9 +74,9 @@ function Report() {
             <Text style={styles.report}>테스트 계정의 데일리 보고서</Text>
             <Text style={styles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>레고</Text> 입니다.</Text>
             {
-                reportData.data.keywordList.map((a) => {
+                reportData.data.keywordList.map((a, idx) => {
                     return (
-                        <View style={styles.reportView}>
+                        <View style={styles.reportView} key={idx}>
                             <Text style={styles.keyword}>{a.keyword}</Text>
                             <Text style={styles.count}>{a.count}회</Text>
                             <View style={styles.line} />
