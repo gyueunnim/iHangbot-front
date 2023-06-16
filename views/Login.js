@@ -57,7 +57,7 @@ function Login({navigation}) {
                         onPress={ (e) => {
                             navigation.navigate('SignUp');
                         } }>
-                    <Text>회원가입</Text>
+                    <Text style={formStyles.btnToSignUpText}>회원가입</Text>
                 </Pressable>
             </View>
         </View>

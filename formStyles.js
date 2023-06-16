@@ -15,12 +15,13 @@ const formStyles = StyleSheet.create({
         gap: 4
     },
     label: {
-
+        color: "#868e96"
     },
     input: {
         padding: 15,
         borderWidth: 1,
-        
+        borderColor: "#868e96",
+        color: "#212529"
     },
     btnContainer: {
         width: "100%",
@@ -40,6 +41,9 @@ const formStyles = StyleSheet.create({
     },
     btnActive: {
         backgroundColor: "#003d99"
+    },
+    btnToSignUpText: {
+        color: "#228be6"
     }
 });
 
