@@ -1,8 +1,12 @@
 import { Text, ScrollView, View, StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
 import { PieChart, StackedBarChart } from "react-native-chart-kit";
 
 function Report() {
     // data = axios.get();
+    const [comparedPositive, setcomparedPostive] = useState([0, ""])
+    const [comparedNegative, setcomparedNegative] = useState([0, ""])
+
     const reportData = {
         "data": {
             "keywordList": [
@@ -39,31 +43,47 @@ function Report() {
             }
         }
     }
+    const yesterdaySentiment =  reportData.data.sentiment.yesterday;
+    const todaySentiment= reportData.data.sentiment.today
+
+    const compareSentiment = (differnece, set) => {
+        if(differnece > 0)
+            set([differnece, "증가"]);
+        else if(differnece < 0)
+            setcomparedPostive([Math.abs(differnece), "감소"]);
+        else
+            setcomparedPostive(0, "");
+    }
+
+    useEffect(() => {
+        compareSentiment(todaySentiment.positive - yesterdaySentiment.positive, setcomparedPostive);
+        compareSentiment(todaySentiment.negative - yesterdaySentiment.negative, setcomparedNegative);
+    }, [])
 
     
-    const sentimentDataToday = [
+    const pieChartData = [
         {
             name: "긍정",
-            population: reportData.data.sentiment.today.positive,
+            population: todaySentiment.positive,
             color: "#0098DB",
             legendFontColor: "#444444",
             legendFontSize: 17
         },
         {
             name: "부정",
-            population: reportData.data.sentiment.today.negative,
+            population: todaySentiment.negative,
             color: "#DB4D69",
             legendFontColor: "#444444",
             legendFontSize: 17
         }
     ]
     
-    const sentimentDataCompare = {
+    const stackedBarChartData = {
         labels: ["어제", "오늘"],
         legend: ["부정", "긍정"],
         data: [
-            [ reportData.data.sentiment.yesterday.negative, reportData.data.sentiment.yesterday.positive],
-            [reportData.data.sentiment.today.negative, reportData.data.sentiment.today.positive]
+            [yesterdaySentiment.negative, yesterdaySentiment.positive],
+            [todaySentiment.negative, todaySentiment.positive]
         ],
         barColors: ["#DB4D69", "#0098DB"],
     }
@@ -86,7 +106,7 @@ function Report() {
             }
             <Text style={styles.sentimentTitle}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
             <PieChart
-                data={sentimentDataToday}
+                data={pieChartData}
                 width={300}
                 height={150}
                 chartConfig={{
@@ -97,8 +117,9 @@ function Report() {
                 paddingLeft={"-5"}
                 center={[10, -10]}
             />
+            <Text style={styles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
             <StackedBarChart
-                data={sentimentDataCompare}
+                data={stackedBarChartData}
                 width={300}
                 height={250}
                 chartConfig={{
@@ -113,7 +134,30 @@ function Report() {
                 }}
                 withHorizontalLabels={false}
             />
-            <Text style={styles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
+            <Text>전날에 비해 긍정은 
+                {
+                    comparedPositive[0] === 0 ? 
+                    <Text>변화가 없었습니다</Text>
+                    : <Text> {comparedPositive[0]}% {comparedPositive[1]}했습니다</Text>
+                } 
+            </Text>
+            <Text>전날에 비해 부정은 
+                {
+                    comparedPositive[0] === 0 ? 
+                    <Text>변화가 없었습니다</Text>
+                    : <Text> {comparedNegative[0]}% {comparedNegative[1]}했습니다</Text>
+                } 
+            </Text>
+            <View style={styles.reportComment}>
+            {
+                comparedPositive[0] === 0 ? 
+                <Text>오늘도 아이와 즐거운 하루 보내세요!</Text> 
+                : ( comparedPositive[0] > 0 ?
+                <Text>아이가 긍정적인 질문을 많이 했네요! 오늘은 아이와 즐거운 대화를 많이 해보는건 어떨까요?</Text>
+                : <Text>아이가 부정적인 질문을 많이 했어요. 오늘은 아이의 관심사에 대해 함께 얘기 해보는건 어떨까요?</Text>
+                )
+            }
+            </View>
         </View>
         </ScrollView>   
     );
@@ -146,6 +190,11 @@ const styles = StyleSheet.create({
         flexDirection:'row', 
         marginLeft: 60, 
         marginRight: 60,
+    },
+    reportComment: {
+      marginTop: 20 ,
+      marginLeft: 30, 
+      marginRight: 30,
     },
     sentimentTitle: {
         textAlign: 'center', 
