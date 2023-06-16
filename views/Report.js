@@ -57,6 +57,16 @@ function Report() {
             legendFontSize: 17
         }
     ]
+    
+    const sentimentDataCompare = {
+        labels: ["어제", "오늘"],
+        legend: ["부정", "긍정"],
+        data: [
+            [ reportData.data.sentiment.yesterday.negative, reportData.data.sentiment.yesterday.positive],
+            [reportData.data.sentiment.today.negative, reportData.data.sentiment.today.positive]
+        ],
+        barColors: ["#DB4D69", "#0098DB"],
+    }
 
     return (
         <ScrollView>
@@ -86,6 +96,22 @@ function Report() {
                 backgroundColor={"transparent"}
                 paddingLeft={"-5"}
                 center={[10, -10]}
+            />
+            <StackedBarChart
+                data={sentimentDataCompare}
+                width={300}
+                height={250}
+                chartConfig={{
+                    backgroundColor: '#FFFFFF',
+                    backgroundGradientFrom: '#FFFFFF', 
+                    backgroundGradientTo: '#FFFFFF', 
+                    color: (opacity = 1) => `#FFFFFF`,
+                    labelColor: (opacity = 1) => `#444444`,
+                    propsForLabels: {
+                        fontSize: 15
+                    }
+                }}
+                withHorizontalLabels={false}
             />
             <Text style={styles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
         </View>
