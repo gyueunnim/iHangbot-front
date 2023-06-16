@@ -71,22 +71,23 @@ function Report() {
     
     return (
         <View style={styles.container}>
-            <Text>테스트 계정의 데일리 보고서</Text>
-            <Text>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>레고</Text> 입니다.</Text>
+            <Text style={styles.report}>테스트 계정의 데일리 보고서</Text>
+            <Text style={styles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>레고</Text> 입니다.</Text>
             {
                 reportData.data.keywordList.map((a) => {
                     return (
-                        <View>
-                            <Text>{a.keyword}</Text>
-                            <Text>{a.count}회</Text>
+                        <View style={styles.reportView}>
+                            <Text style={styles.keyword}>{a.keyword}</Text>
+                            <Text style={styles.count}>{a.count}회</Text>
+                            <View style={styles.line} />
                         </View>
                     )
                 })
             }
-            <Text>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
-            <Text>전날 대비 감정 추이 비교</Text>
+            <Text style={{textAlign: 'center', marginTop: 50, fontSize: 20}}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
+            <Text style={{textAlign: 'center'}}>전날 대비 감정 추이 비교</Text>
             <BarChart
-                // style={styles.chart}
+                style={styles.chart}
                 data={sentimentData}
                 width={500}
                 height={300}
@@ -105,7 +106,55 @@ function Report() {
     );
 }
 
-
+const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+        paddingLeft: 0,
+        backgroundColor: '#FFFFFF'
+    },
+    report: {
+        textAlign: 'center', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        fontSize: 25
+    },
+    reportTitle: {
+        textAlign: 'center', 
+        alignItems: 'center', 
+        justifyContent: 'center',   
+        marginTop: 35,
+        marginBottom: 15,
+        fontSize: 17
+    },
+    reportView: {
+        flexDirection:'row', 
+        marginLeft: 60, 
+        marginRight: 60,
+    },
+    keyword: {
+        textAlign: 'left',
+        fontSize: 22
+    },
+    count: {
+        position: 'absolute',
+        right: 0,
+        fontSize: 17
+    },
+    line: {
+        flex: 1,
+        height: 1,
+        backgroundColor: '#D5D5D5', 
+        marginTop: 20
+    },
+    chart: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+        backgroundColor: '#FFFFFF'
+    }
+});
   
 
 export default Report;
