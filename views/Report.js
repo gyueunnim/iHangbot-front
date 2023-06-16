@@ -1,5 +1,5 @@
-import { Text, View, StyleSheet } from "react-native";
-import { BarChart } from "react-native-chart-kit";
+import { Text, ScrollView, View, StyleSheet } from "react-native";
+import { PieChart, StackedBarChart } from "react-native-chart-kit";
 
 function Report() {
     // data = axios.get();
@@ -29,47 +29,37 @@ function Report() {
             ],
             "sentiment": {
                 "yesterday": {
-                    "positive": 10,
-                    "negative": 90
+                    "positive": 90,
+                    "negative": 10
                 },
                 "today": {
-                    "positive": 35,
-                    "negative": 65
+                    "positive": 65,
+                    "negative": 35
                 }
             }
         }
     }
 
-    const sentimentData = {
-        labels: [null, null],
-        datasets: [
-            {
-                data: [
-                    reportData.data.sentiment.yesterday.positive, 
-                    reportData.data.sentiment.yesterday.negative, 
-                    reportData.data.sentiment.today.positive, 
-                    reportData.data.sentiment.today.negative
-                ],
-                colors: [
-                    (opacity = 1) => '#CD0F0F',
-                    (opacity = 1) => '#214597',
-                    (opacity = 1) => '#CD0F0F',
-                    (opacity = 1) => '#214597',
-                ],
-            }
-        ]
-    }
-
-    const chartConfig = {
-        backgroundColor: '#FFFFFF',
-        backgroundGradientFrom: '#FFFFFF', 
-        backgroundGradientTo: '#FFFFFF', 
-        decimalPlaces: 0, 
-        color: (opacity = 1) => `#000000`,
-        labelColor: (opacity = 1) => `#FFFFFF`,
-    };
     
+    const sentimentDataToday = [
+        {
+            name: "긍정",
+            population: reportData.data.sentiment.today.positive,
+            color: "#0098DB",
+            legendFontColor: "#444444",
+            legendFontSize: 17
+        },
+        {
+            name: "부정",
+            population: reportData.data.sentiment.today.negative,
+            color: "#DB4D69",
+            legendFontColor: "#444444",
+            legendFontSize: 17
+        }
+    ]
+
     return (
+        <ScrollView>
         <View style={styles.container}>
             <Text style={styles.report}>테스트 계정의 데일리 보고서</Text>
             <Text style={styles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>레고</Text> 입니다.</Text>
@@ -84,25 +74,22 @@ function Report() {
                     )
                 })
             }
-            <Text style={{textAlign: 'center', marginTop: 50, fontSize: 20}}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
-            <Text style={{textAlign: 'center'}}>전날 대비 감정 추이 비교</Text>
-            <BarChart
-                style={styles.chart}
-                data={sentimentData}
-                width={500}
-                height={300}
-                showBarTops={false}
-                showValuesOnTopOfBars={true}
-                chartConfig={chartConfig}
-                horizontal={true}
-                withCustomBarColorFromData={true}
-                flatColor={true}
-                fromZero={true}
-                withInnerLines={false}
-                withHorizontalLabels={false}
-                withVerticalLabels={false}
+            <Text style={styles.sentimentTitle}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
+            <PieChart
+                data={sentimentDataToday}
+                width={300}
+                height={150}
+                chartConfig={{
+                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  }}
+                accessor={"population"}
+                backgroundColor={"transparent"}
+                paddingLeft={"-5"}
+                center={[10, -10]}
             />
-        </View>   
+            <Text style={styles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
+        </View>
+        </ScrollView>   
     );
 }
 
@@ -112,7 +99,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 20,
         paddingLeft: 0,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        width: "100%"
     },
     report: {
         textAlign: 'center', 
@@ -132,6 +120,12 @@ const styles = StyleSheet.create({
         flexDirection:'row', 
         marginLeft: 60, 
         marginRight: 60,
+    },
+    sentimentTitle: {
+        textAlign: 'center', 
+        marginTop: 30, 
+        marginBottom: 30,
+        fontSize: 20
     },
     keyword: {
         textAlign: 'left',
