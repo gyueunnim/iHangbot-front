@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import formStyles from "../formStyles";
+import formStyles from "../styles/formStyles";
 
 function Login({navigation}) {
     const [id, setId] = useState("");
