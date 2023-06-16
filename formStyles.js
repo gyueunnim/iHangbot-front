@@ -20,7 +20,8 @@ const formStyles = StyleSheet.create({
     input: {
         padding: 15,
         borderWidth: 1,
-        borderColor: "#868e96",
+        borderColor: "#adb5bd",
+        borderRadius: 5,
         color: "#212529"
     },
     btnContainer: {
@@ -31,9 +32,11 @@ const formStyles = StyleSheet.create({
     btnLogin: {
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: 5
     },
     btnText: {
-        padding: 10,
+        padding: 12,
+        fontSize: 14,
         color: 'white'
     },
     btnDisabled: {
@@ -43,7 +46,8 @@ const formStyles = StyleSheet.create({
         backgroundColor: "#003d99"
     },
     btnToSignUpText: {
-        color: "#228be6"
+        color: "#228be6",
+        textDecorationLine: "underline"
     }
 });
 
