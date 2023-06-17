@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, ScrollView } from "react-native";
 import formStyles from "../styles/formStyles";
 import { RadioButton } from "react-native-paper";
 import axios from "axios";
@@ -68,7 +68,7 @@ function SignUp({navigation}) {
    )};
 
       const clickedToServer = async () => {
-        axios.post("http://192.168.0.177:8080/signUp", userInfo)
+        axios.post("http://192.168.0.177:8080/member/signUp", userInfo)
         .then((response) => { 
             if(response.status === 200) {
                 successAlert();
@@ -88,6 +88,7 @@ function SignUp({navigation}) {
 
 
     return (
+        <ScrollView>
         <View style={formStyles.container}>
             <View style={formStyles.inputContainer}>
                 <View style={formStyles.labelContainer}>
@@ -167,6 +168,7 @@ function SignUp({navigation}) {
                 </TouchableOpacity>
             </View>
         </View>
+        </ScrollView>
     );
 }
 

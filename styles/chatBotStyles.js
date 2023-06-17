@@ -10,7 +10,8 @@ const chatBotStyles = StyleSheet.create({
     },
     userChatBox: {
         backgroundColor: "#74c0fc",
-        flex: 1
+        flex: 1,
+        flexDirection: 'row'
     },
     chatboxChatBox: {
         backgroundColor: "#a5d8ff",

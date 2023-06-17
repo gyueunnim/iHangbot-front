@@ -6,13 +6,13 @@ import stt from "../modules/stt.js";
 import tts from "../modules/tts.js";
 import { useDispatch } from "react-redux";
 import { setInitialLogin } from "../data/store.js";
+import axios from "axios";
 
-const tempGPTResponse = `무슨 게임을 좋아해? 나는 자동차 게임을 좋아해! 같이 놀면 재미있을 거야!`;
+function ChatBot({navigation}) {   
+    const url = "http://192.168.0.204:8079/api/chat"
 
-function ChatBot({navigation}) {
     const [sttLoading, setSttLoading] = useState(false);
     const [ttsLoading, setTtsLoading] = useState(false);
-    
 
     const [recording, setRecording] = useState();
     const [userChat, setUserChat] = useState({ text: "", audioUri: null });
@@ -32,28 +32,33 @@ function ChatBot({navigation}) {
             const { recording } = await Audio.Recording.createAsync(recordOption);
             setRecording(recording);
         } catch (err) {
-            // TODO: Error handling
             console.error("Failed to start recording", err);
         }
     };
 
-    /**
-     * Query to GPT given a query statement.
-     * The query statement should be the STT response.
-     * This is an async function.
-     * @param {string} query to send to GPT. It would be the STT response
-     * @returns response of GPT
-     */
     const queryToGPT = async (query) => {
-        // Insert the function to send request to GPT server here later
-        // const response = await gpt(query);
-        const response = tempGPTResponse;
-        return response;
+        axios.post(url, {
+            "string": query
+        })
+        .then(async (response) => {
+            setChatbotResponse(response.data.message);
+
+            const ttsResponse = await tts(response.data.message);
+
+            setTtsLoading(false);
+            
+            setChatbotChat({
+                text: response.data.message,
+                audioUri: ttsResponse
+            });
+            await playSound(ttsResponse);
+        })
+        .catch((error) => console.error(error))
     }
 
     const stopRecording = async () => {
         setSttLoading(false);
-        setTtsLoading(true);
+
         const status = await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: false,
@@ -61,27 +66,18 @@ function ChatBot({navigation}) {
         const userVoiceUri = recording.getURI();
         setRecording(undefined);
 
-        // Do STT job
+        setTtsLoading(true);
+
         const sttResponse = await stt(userVoiceUri);
+
         const sttText = sttResponse.text;
+        
         setUserChat({
             text: sttText,
             audioUri: userVoiceUri
         });
 
-        const chatbotResponse = await queryToGPT(sttText);
-
-        // Do TTS job
-        const ttsResponse = await tts(chatbotResponse);
-
-        setTtsLoading(false);
-        setChatbotChat({
-            text: chatbotResponse,
-            audioUri: ttsResponse
-        });
-
-        // Play the sound of the response of TTS provided by chatbot response
-        playSound(ttsResponse);
+        await queryToGPT(sttText);
     };
 
     const playSound = async (soundUri) => {
@@ -102,7 +98,6 @@ function ChatBot({navigation}) {
     }
 
     useEffect(() => {
-        // Unload sound
         return sound ? () => {
             sound.unloadAsync();
         } : undefined;

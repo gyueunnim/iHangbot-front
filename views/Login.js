@@ -10,7 +10,7 @@ function Login({navigation}) {
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
 
-    const url = "http://192.168.0.177:8080/login";
+    const url = "http://192.168.0.177:8080/member/login"
 
     const loginInfo = {
         "user_id": id, 
