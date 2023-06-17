@@ -7,7 +7,8 @@ const formStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 33,
-        gap: 12
+        gap: 12, 
+        backgroundColor: '#FFFFFF'
     },
     inputContainer: {
         width: "100%",
