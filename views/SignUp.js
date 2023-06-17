@@ -14,6 +14,7 @@ function SignUp() {
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
     const [gender, setGender] = useState(male);
+    const [email, setEmail] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
 
     let checkAlert = () => {
@@ -100,6 +101,14 @@ function SignUp() {
                         <Text style={{color: "#212529"}}>여자</Text>
                     </View>
                 </View>
+            </View>
+            <View style={formStyles.inputContainer}>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>이메일</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
+                <TextInput style={formStyles.input} placeholder="이메일을 입력하세요"
+                        onChangeText={(text) => setEmail(text)}/>
             </View>
             <View style={formStyles.btnContainer}>
                 <TouchableOpacity
