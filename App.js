@@ -8,7 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Login from './views/Login';
 import SignUp from './views/SignUp';
 import ChatBot from './views/ChatBot';
-import Report from './views/Report';
+import ReportTab from './views/ReportTab';
 
 
 export default function App() {
@@ -19,7 +19,7 @@ export default function App() {
 				<Stack.Screen name="Login" component={Login} />
 				<Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="ChatBot" component={ChatBot} />
-        <Stack.Screen name="Report" component={Report} />
+        <Stack.Screen name="ReportTab" component={ReportTab} />
 			</Stack.Navigator>
 		</NavigationContainer>
   );
