@@ -6,7 +6,6 @@ import { INTIAL_LOGIN, REPORT_LOGIN } from "../data/constants";
 
 function Login({navigation}) {
     const loginMode = useSelector((state) => state.loginMode);
-    console.log(loginMode);
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
@@ -30,10 +29,9 @@ function Login({navigation}) {
         }
     };
 
-    // TODO: Delete this part after testing
-    // useEffect(() => {
-    //     navigation.navigate("ChatBot");
-    // }, []);
+    useEffect(() => {
+        setPassword("");
+    }, [loginMode]);
 
     useEffect(() => {
         (id !== "") && (password !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled);
@@ -49,6 +47,7 @@ function Login({navigation}) {
             <View style={formStyles.inputContainer}>
                 <Text style={formStyles.label}>비밀번호</Text>
                 <TextInput style={formStyles.input} placeholder="비밀번호를 입력하세요"
+                        value={password}
                         secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
             </View>
             <View style={formStyles.btnContainer}>
