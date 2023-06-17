@@ -79,20 +79,26 @@ function SignUp() {
                 <TextInput style={formStyles.input} placeholder="비밀번호를 다시 한번 입력하세요"
                         secureTextEntry={true} onChangeText={(text) => setCheckPassword(text)}/>
             </View>
-            <View>
-                <View>
-                    <RadioButton
-                            value={male}
-                            status={gender == male ? "checked" : "unchecked"}
-                            onPress={() => setGender(male)} />
-                    <Text>남자</Text>
+            <View style={formStyles.inputContainer}>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>성별</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
                 </View>
-                <View>
-                    <RadioButton
-                            value={female}
-                            status={gender == female ? "checked" : "unchecked"}
-                            onPress={() => setGender(female)} />
-                    <Text>여자</Text>
+                <View style={formStyles.radioContainer}>
+                    <View style={formStyles.radioUnit}>
+                        <RadioButton
+                                value={male}
+                                status={gender == male ? "checked" : "unchecked"}
+                                onPress={() => setGender(male)} />
+                        <Text style={{color: "#212529"}}>남자</Text>
+                    </View>
+                    <View style={formStyles.radioUnit}>
+                        <RadioButton
+                                value={female}
+                                status={gender == female ? "checked" : "unchecked"}
+                                onPress={() => setGender(female)} />
+                        <Text style={{color: "#212529"}}>여자</Text>
+                    </View>
                 </View>
             </View>
             <View style={formStyles.btnContainer}>
