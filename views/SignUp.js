@@ -2,13 +2,19 @@
 import { useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
 import formStyles from "../styles/formStyles";
+import { RadioButton } from "react-native-paper";
 
 function SignUp() {
+    // For the value of radio button of genders
+    const male = "male";
+    const female = "female";
+
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
-    const [check, setCheck] = useState(false);
+    const [gender, setGender] = useState(male);
+    const [email, setEmail] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
 
     let checkAlert = () => {
@@ -73,6 +79,36 @@ function SignUp() {
                 </View>
                 <TextInput style={formStyles.input} placeholder="비밀번호를 다시 한번 입력하세요"
                         secureTextEntry={true} onChangeText={(text) => setCheckPassword(text)}/>
+            </View>
+            <View style={formStyles.inputContainer}>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>성별</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
+                <View style={formStyles.radioContainer}>
+                    <View style={formStyles.radioUnit}>
+                        <RadioButton
+                                value={male}
+                                status={gender == male ? "checked" : "unchecked"}
+                                onPress={() => setGender(male)} />
+                        <Text style={{color: "#212529"}}>남자</Text>
+                    </View>
+                    <View style={formStyles.radioUnit}>
+                        <RadioButton
+                                value={female}
+                                status={gender == female ? "checked" : "unchecked"}
+                                onPress={() => setGender(female)} />
+                        <Text style={{color: "#212529"}}>여자</Text>
+                    </View>
+                </View>
+            </View>
+            <View style={formStyles.inputContainer}>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>이메일</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
+                <TextInput style={formStyles.input} placeholder="이메일을 입력하세요"
+                        onChangeText={(text) => setEmail(text)}/>
             </View>
             <View style={formStyles.btnContainer}>
                 <TouchableOpacity
