@@ -1,12 +1,26 @@
 import { useState, useEffect } from "react";
 import { Text, TextInput, TouchableOpacity, View, Alert, Image } from "react-native";
 import formStyles from "../styles/formStyles";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Modification() {
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [email, setEmail] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
+    const userLoginInfo = useSelector((state) => {return state.userLoginInfo});
+    const url = "http://192.168.0.177:8080/member/"+(userLoginInfo.id)+"/profile"
+
+
+    const getInfoFromServer = () => {
+        axios.get(url)
+        .then((res) => {
+            setName(res.data.data.child_name);
+            setAge(res.data.data.child_age);
+            setEmail(res.data.data.email);
+        })
+    }
 
     useEffect(() => {
         (name !== "") && (age !== "") && (email !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled)
@@ -21,8 +35,8 @@ function Modification() {
                 <Text style={formStyles.label}>아이 이름</Text>
                 <Text style={formStyles.requiredInput}>*</Text>
             </View>
-            <TextInput style={formStyles.input} placeholder="아이 이름을 입력하세요"
-                    onChangeText={(text) => setName(text)}/>
+            <TextInput style={formStyles.input} placeholder="아이 이름을 입력하세요"  
+                    value={name} onChangeText={(text) => setName(text)}/>
         </View>
         <View style={formStyles.inputContainer}>
             <View style={formStyles.labelContainer}>
@@ -30,7 +44,7 @@ function Modification() {
                 <Text style={formStyles.requiredInput}>*</Text>
             </View>
             <TextInput style={formStyles.input} placeholder="나이를 입력하세요"
-                    onChangeText={(text) => setAge(text)}/>
+                    value={age} onChangeText={(text) => setAge(text)}/>
         </View>
         <View style={formStyles.inputContainer}>
             <View style={formStyles.labelContainer}>
@@ -38,7 +52,7 @@ function Modification() {
                 <Text style={formStyles.requiredInput}>*</Text>
             </View>
             <TextInput style={formStyles.input} placeholder="이메일을 입력하세요"
-                    onChangeText={(text) => setEmail(text)}/>
+                   value={email} onChangeText={(text) => setEmail(text)}/>
         </View>
         <View style={formStyles.btnContainer}>
             <TouchableOpacity

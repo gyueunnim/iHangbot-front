@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { Alert, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import formStyles from "../styles/formStyles";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setUserLoginInfo } from "../data/store.js";
 import axios from "axios";
 
 function Login({navigation}) {
     const initialLogin = useSelector((state) => state.initialLogin);
+    const userLoginInfo = useSelector((state) => state.userLoginInfo);
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
@@ -32,12 +35,15 @@ function Login({navigation}) {
         initialLogin ? navigation.navigate("ChatBot") : navigation.navigate("ReportTab");
     };
 
+    const dispatch = useDispatch();
     const clickedToServer = async () => {
         axios.get(url, {
             params: loginInfo
         }).then((response) => {
-            if(response.status === 200) 
+            if(response.status === 200) {
+                dispatch(setUserLoginInfo([id]));
                 navigateTo();
+            }
             else
                 failAlert();
         })
