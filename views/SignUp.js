@@ -67,21 +67,25 @@ function SignUp({navigation}) {
     navigateToLogin()
    )};
 
+      const clickedToServer = async () => {
+        axios.post("http://192.168.0.177:8080/signUp", userInfo)
+        .then((response) => { 
+            if(response.status === 200) {
+                successAlert();
+                navigateToLogin();
+            }
+            else
+                failAlert();
+        })
+        .catch((err) => console.error(err));
+    }
+
+
 
    useEffect(() => {
        (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled)
    }, [name, id, password, checkPassword, gender, age, email])
 
-   const clickedToServer = async () => {
-    axios.post("http://192.168.0.177:8080/signUp", userInfo)
-    .then((response) => { 
-        if(response.status === 200) {
-            successAlert();
-            navigateToLogin();
-        }
-     })
-    .catch((err) => console.error(err));
-   }
 
     return (
         <View style={formStyles.container}>
