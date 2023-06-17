@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Alert, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import formStyles from "../styles/formStyles";
 import { useSelector } from "react-redux";
+import { INTIAL_LOGIN, REPORT_LOGIN } from "../data/constants";
 
 function Login({navigation}) {
     const loginMode = useSelector((state) => state.loginMode);
@@ -22,7 +23,11 @@ function Login({navigation}) {
     };
 
     let tempSuccess = () => {
-        navigation.navigate("ChatBot");
+        if (loginMode === INTIAL_LOGIN) {
+            navigation.navigate("ChatBot");
+        } else if (loginMode === REPORT_LOGIN) {
+            navigation.navigate("ReportTab");
+        }
     };
 
     // TODO: Delete this part after testing
