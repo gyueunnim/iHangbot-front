@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import formStyles from "../styles/formStyles";
+import { useSelector } from "react-redux";
+import { INTIAL_LOGIN, REPORT_LOGIN } from "../data/constants";
 
 function Login({navigation}) {
+    const loginMode = useSelector((state) => state.loginMode);
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
@@ -19,13 +22,16 @@ function Login({navigation}) {
     };
 
     let tempSuccess = () => {
-        navigation.navigate("ChatBot");
+        if (loginMode === INTIAL_LOGIN) {
+            navigation.navigate("ChatBot");
+        } else if (loginMode === REPORT_LOGIN) {
+            navigation.navigate("ReportTab");
+        }
     };
 
-    // TODO: Delete this part after testing
-    // useEffect(() => {
-    //     navigation.navigate("ChatBot");
-    // }, []);
+    useEffect(() => {
+        setPassword("");
+    }, [loginMode]);
 
     useEffect(() => {
         (id !== "") && (password !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled);
@@ -41,6 +47,7 @@ function Login({navigation}) {
             <View style={formStyles.inputContainer}>
                 <Text style={formStyles.label}>비밀번호</Text>
                 <TextInput style={formStyles.input} placeholder="비밀번호를 입력하세요"
+                        value={password}
                         secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
             </View>
             <View style={formStyles.btnContainer}>
