@@ -57,6 +57,17 @@ const formStyles = StyleSheet.create({
     btnToSignUpText: {
         color: "#228be6",
         textDecorationLine: "underline"
+    },
+    radioContainer: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        gap: 16
+    },
+    radioUnit: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
     }
 });
 
