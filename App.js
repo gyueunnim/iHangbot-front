@@ -12,24 +12,24 @@ import ReportTab from './views/ReportTab';
 
 
 export default function App() {
-	const Stack = createStackNavigator();
-  	return (
-		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Login">
-				<Stack.Screen name="Login" component={Login} />
-				<Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="ChatBot" component={ChatBot} />
-        <Stack.Screen name="ReportTab" component={ReportTab} />
-			</Stack.Navigator>
-		</NavigationContainer>
-  );
+    const Stack = createStackNavigator();
+    return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="SignUp" component={SignUp} />
+                <Stack.Screen name="ChatBot" component={ChatBot} />
+                <Stack.Screen name="ReportTab" component={ReportTab} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
