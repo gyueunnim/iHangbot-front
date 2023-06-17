@@ -2,13 +2,18 @@
 import { useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
 import formStyles from "../styles/formStyles";
+import { RadioButton } from "react-native-paper";
 
 function SignUp() {
+    // For the value of radio button of genders
+    const male = "male";
+    const female = "female";
+
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
-    const [check, setCheck] = useState(false);
+    const [gender, setGender] = useState(male);
     const [btnStyle, setBtnStyle] = useState({});
 
     let checkAlert = () => {
@@ -73,6 +78,22 @@ function SignUp() {
                 </View>
                 <TextInput style={formStyles.input} placeholder="비밀번호를 다시 한번 입력하세요"
                         secureTextEntry={true} onChangeText={(text) => setCheckPassword(text)}/>
+            </View>
+            <View>
+                <View>
+                    <RadioButton
+                            value={male}
+                            status={gender == male ? "checked" : "unchecked"}
+                            onPress={() => setGender(male)} />
+                    <Text>남자</Text>
+                </View>
+                <View>
+                    <RadioButton
+                            value={female}
+                            status={gender == female ? "checked" : "unchecked"}
+                            onPress={() => setGender(female)} />
+                    <Text>여자</Text>
+                </View>
             </View>
             <View style={formStyles.btnContainer}>
                 <TouchableOpacity
