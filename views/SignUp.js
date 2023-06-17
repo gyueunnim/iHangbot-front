@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
-import formStyles from "../formStyles";
+import formStyles from "../styles/formStyles";
 
 function SignUp() {
     const [name, setName] = useState("");

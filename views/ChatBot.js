@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import { Text, TouchableOpacity, View, Image } from "react-native";
 import { Audio } from "expo-av";
+import chatBotStyles from "../styles/chatBotStyles.js";
 import stt from "../modules/stt.js";
 import tts from "../modules/tts.js";
 
@@ -100,24 +101,24 @@ function ChatBot({navigation}) {
     }, []);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.userChatBox}>
-                <Image source={require('../assets/child_Icon.png')} style={styles.chatIcon}/>
+        <View style={chatBotStyles.container}>
+            <View style={chatBotStyles.userChatBox}>
+                <Image source={require('../assets/child_Icon.png')} style={chatBotStyles.chatIcon}/>
                 {
                     sttLoading === true 
                     ? <Text>말하는 중...</Text>
                     : <Text onPress={() => playSound(userChat.audioUri)}>{userChat.text}</Text>
                 }
             </View>
-            <View style={styles.chatboxChatBox}>
-                <Image source={require('../assets/chatbot_Icon.png')} style={styles.chatIcon}/>
+            <View style={chatBotStyles.chatboxChatBox}>
+                <Image source={require('../assets/chatbot_Icon.png')} style={chatBotStyles.chatIcon}/>
                 {
                     ttsLoading === true 
                     ? <Text>대답을 생각하는중...</Text>
                     : <Text onPress={() => playSound(chatbotChat.audioUri)}>{chatbotChat.text}</Text>
                 }
             </View>
-            <View style={styles.bottomSpace}>
+            <View style={chatBotStyles.bottomSpace}>
                 <TouchableOpacity onPress={recording ? stopRecording : startRecording}
                 onLongPress={() => navigation.navigate("Report")} delayLongPress={5000}>
                     <Image source={require('../assets/input_Icon.png')} style={{width: 125, height: 125}}/>
@@ -127,41 +128,5 @@ function ChatBot({navigation}) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#f1f3f5",
-        width: "100%",
-        height: "100%",
-        paddingTop: 20,
-        flexDirection: "column"
-    },
-    userChatBox: {
-        backgroundColor: "#74c0fc",
-        flex: 1
-    },
-    chatboxChatBox: {
-        backgroundColor: "#a5d8ff",
-        flex: 1,
-        flexDirection: 'row'
-    },
-    bottomSpace: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    btnInput: {
-        width: 100,
-        height: 100,
-        backgroundColor: "black",
-    },
-    txtChat: {
-        
-    },
-    chatIcon: {
-        width: 25,
-        height: 25,
-        margin: 10
-    }
-});
 
 export default ChatBot;

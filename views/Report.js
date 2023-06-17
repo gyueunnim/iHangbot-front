@@ -1,6 +1,7 @@
-import { Text, ScrollView, View, StyleSheet } from "react-native";
+import { Text, ScrollView, View } from "react-native";
 import { useState, useEffect } from "react";
 import { PieChart, StackedBarChart } from "react-native-chart-kit";
+import reportStyles from '../styles/reportStyles';
 
 function Report() {
     // data = axios.get();
@@ -45,7 +46,7 @@ function Report() {
     }
     const yesterdaySentiment =  reportData.data.sentiment.yesterday;
     const todaySentiment= reportData.data.sentiment.today
-
+    
     const compareSentiment = (differnece, set) => {
         if(differnece > 0)
             set([differnece, "증가"]);
@@ -90,21 +91,21 @@ function Report() {
 
     return (
         <ScrollView>
-        <View style={styles.container}>
-            <Text style={styles.report}>테스트 계정의 데일리 보고서</Text>
-            <Text style={styles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>레고</Text> 입니다.</Text>
+        <View style={reportStyles.container}>
+            <Text style={reportStyles.report}>테스트 계정의 데일리 보고서</Text>
+            <Text style={reportStyles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>레고</Text> 입니다.</Text>
             {
                 reportData.data.keywordList.map((a, idx) => {
                     return (
-                        <View style={styles.reportView} key={idx}>
-                            <Text style={styles.keyword}>{a.keyword}</Text>
-                            <Text style={styles.count}>{a.count}회</Text>
-                            <View style={styles.line} />
+                        <View style={reportStyles.reportView} key={idx}>
+                            <Text style={reportStyles.keyword}>{a.keyword}</Text>
+                            <Text style={reportStyles.count}>{a.count}회</Text>
+                            <View style={reportStyles.line} />
                         </View>
                     )
                 })
             }
-            <Text style={styles.sentimentTitle}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
+            <Text style={reportStyles.sentimentTitle}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
             <PieChart
                 data={pieChartData}
                 width={300}
@@ -117,7 +118,7 @@ function Report() {
                 paddingLeft={"-5"}
                 center={[10, -10]}
             />
-            <Text style={styles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
+            <Text style={reportStyles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
             <StackedBarChart
                 data={stackedBarChartData}
                 width={300}
@@ -148,13 +149,13 @@ function Report() {
                     : <Text> {comparedNegative[0]}% {comparedNegative[1]}했습니다</Text>
                 } 
             </Text>
-            <View style={styles.reportComment}>
+            <View style={reportStyles.reportComment}>
             {
                 comparedPositive[0] === 0 ? 
-                <Text>오늘도 아이와 즐거운 하루 보내세요!</Text> 
+                <Text style={reportStyles.reportComment}>오늘도 아이와 즐거운 하루 보내세요!</Text> 
                 : ( comparedPositive[0] > 0 ?
-                <Text>아이가 긍정적인 질문을 많이 했네요! 오늘은 아이와 즐거운 대화를 많이 해보는건 어떨까요?</Text>
-                : <Text>아이가 부정적인 질문을 많이 했어요. 오늘은 아이의 관심사에 대해 함께 얘기 해보는건 어떨까요?</Text>
+                <Text style={reportStyles.reportComment}>아이가 긍정적인 질문을 많이 했네요! 오늘은 아이와 즐거운 대화를 많이 해보는건 어떨까요?</Text>
+                : <Text style={reportStyles.reportComment}>아이가 부정적인 질문을 많이 했어요. 오늘은 아이의 관심사에 대해 함께 얘기 해보는건 어떨까요?</Text>
                 )
             }
             </View>
@@ -163,67 +164,6 @@ function Report() {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 20,
-        paddingLeft: 0,
-        backgroundColor: '#FFFFFF',
-        width: "100%"
-    },
-    report: {
-        textAlign: 'center', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        fontSize: 25
-    },
-    reportTitle: {
-        textAlign: 'center', 
-        alignItems: 'center', 
-        justifyContent: 'center',   
-        marginTop: 35,
-        marginBottom: 15,
-        fontSize: 17
-    },
-    reportView: {
-        flexDirection:'row', 
-        marginLeft: 60, 
-        marginRight: 60,
-    },
-    reportComment: {
-      marginTop: 20 ,
-      marginLeft: 30, 
-      marginRight: 30,
-    },
-    sentimentTitle: {
-        textAlign: 'center', 
-        marginTop: 30, 
-        marginBottom: 30,
-        fontSize: 20
-    },
-    keyword: {
-        textAlign: 'left',
-        fontSize: 22
-    },
-    count: {
-        position: 'absolute',
-        right: 0,
-        fontSize: 17
-    },
-    line: {
-        flex: 1,
-        height: 1,
-        backgroundColor: '#D5D5D5', 
-        marginTop: 20
-    },
-    chart: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 20,
-        backgroundColor: '#FFFFFF'
-    }
-});
-  
+
 
 export default Report;
