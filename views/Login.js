@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import formStyles from "../styles/formStyles";
+import { useSelector } from "react-redux";
 
 function Login({navigation}) {
+    const loginMode = useSelector((state) => state.loginMode);
+    console.log(loginMode);
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});

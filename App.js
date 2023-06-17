@@ -9,19 +9,23 @@ import Login from './views/Login';
 import SignUp from './views/SignUp';
 import ChatBot from './views/ChatBot';
 import ReportTab from './views/ReportTab';
+import { Provider } from 'react-redux';
+import store from './data/store';
 
 
 export default function App() {
     const Stack = createStackNavigator();
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="SignUp" component={SignUp} />
-                <Stack.Screen name="ChatBot" component={ChatBot} />
-                <Stack.Screen name="ReportTab" component={ReportTab} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Provider store={store}>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Login">
+                    <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="SignUp" component={SignUp} />
+                    <Stack.Screen name="ChatBot" component={ChatBot} />
+                    <Stack.Screen name="ReportTab" component={ReportTab} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </Provider>
     );
 }
 
