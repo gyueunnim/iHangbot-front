@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { Alert, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import formStyles from "../styles/formStyles";
 import { useSelector } from "react-redux";
-import { INTIAL_LOGIN, REPORT_LOGIN } from "../data/constants";
 
 function Login({navigation}) {
-    const loginMode = useSelector((state) => state.loginMode);
+    const initialLogin = useSelector((state) => state.initialLogin);
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
@@ -22,16 +21,12 @@ function Login({navigation}) {
     };
 
     let tempSuccess = () => {
-        if (loginMode === INTIAL_LOGIN) {
-            navigation.navigate("ChatBot");
-        } else if (loginMode === REPORT_LOGIN) {
-            navigation.navigate("ReportTab");
-        }
+        initialLogin ? navigation.navigate("ChatBot") : navigation.navigate("ReportTab");
     };
 
     useEffect(() => {
         setPassword("");
-    }, [loginMode]);
+    }, [initialLogin]);
 
     useEffect(() => {
         (id !== "") && (password !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled);

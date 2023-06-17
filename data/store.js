@@ -1,11 +1,11 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { INTIAL_LOGIN } from "./constants";
 
-const loginMode = createSlice({
-    name: "loginMode",
-    initialState: INTIAL_LOGIN,
+const initialLogin = createSlice({
+    name: "initialLogin",
+    initialState: true,
     reducers: {
-        setLoginMode(state, action) {
+        setInitialLogin(state, action) {
             return action.payload;
         }
     }
@@ -13,8 +13,8 @@ const loginMode = createSlice({
 
 export default configureStore({
     reducer: {
-        loginMode: loginMode.reducer
+        initialLogin: initialLogin.reducer
     }
 });
 
-export const {setLoginMode} = loginMode.actions;
+export const {setInitialLogin} = initialLogin.actions;

@@ -5,8 +5,7 @@ import chatBotStyles from "../styles/chatBotStyles.js";
 import stt from "../modules/stt.js";
 import tts from "../modules/tts.js";
 import { useDispatch } from "react-redux";
-import { setLoginMode } from "../data/store.js";
-import { REPORT_LOGIN } from "../data/constants.js";
+import { setInitialLogin } from "../data/store.js";
 
 const tempGPTResponse = `무슨 게임을 좋아해? 나는 자동차 게임을 좋아해! 같이 놀면 재미있을 거야!`;
 
@@ -98,7 +97,7 @@ function ChatBot({navigation}) {
 
     const dispatch = useDispatch();
     const navigateToReport = () => {
-        dispatch(setLoginMode(REPORT_LOGIN));
+        dispatch(setInitialLogin(false));
         navigation.navigate("Login");
     }
 
