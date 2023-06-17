@@ -120,7 +120,7 @@ function ChatBot({navigation}) {
             </View>
             <View style={chatBotStyles.bottomSpace}>
                 <TouchableOpacity onPress={recording ? stopRecording : startRecording}
-                onLongPress={() => navigation.navigate("Report")} delayLongPress={5000}>
+                onLongPress={() => navigation.navigate("ReportTab")} delayLongPress={5000}>
                     <Image source={require('../assets/input_Icon.png')} style={{width: 125, height: 125}}/>
                 </TouchableOpacity>
             </View>
