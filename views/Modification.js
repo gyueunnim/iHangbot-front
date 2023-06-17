@@ -9,8 +9,8 @@ function Modification() {
     const [btnStyle, setBtnStyle] = useState({});
 
     useEffect(() => {
-        (name !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled)
-    }, [name])
+        (name !== "") && (age !== "") && (email !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled)
+    }, [name, age, email])
 
     return (
         <View style={formStyles.container}>
@@ -34,7 +34,7 @@ function Modification() {
         </View>
         <View style={formStyles.inputContainer}>
             <View style={formStyles.labelContainer}>
-                <Text style={formStyles.label}>아이 이름</Text>
+                <Text style={formStyles.label}>이메일</Text>
                 <Text style={formStyles.requiredInput}>*</Text>
             </View>
             <TextInput style={formStyles.input} placeholder="이메일을 입력하세요"

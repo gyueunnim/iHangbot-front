@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const formStyles = StyleSheet.create({
     container: {
         width: "100%",
-        height: "90%",
+        height: "100%",
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 33,
