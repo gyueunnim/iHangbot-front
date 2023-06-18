@@ -3,8 +3,8 @@ import { urlPostSentimentReport } from "../data/global";
 
 const todayReportData = {
     data: {
-        negative: 30,
-        positive: 60,
+        negative: 30.513314,
+        positive: 59.1321345,
         neutral: 10,
         negData: [
             "말이안통하네 진짜",
@@ -25,8 +25,8 @@ const todayReportData = {
 
 const yesterdayReportData = {
     data: {
-        negative: 20,
-        positive: 40,
+        negative: 19.8,
+        positive: 40.2,
         neutral: 40,
         negData: [
             "말이안통하네 진짜",

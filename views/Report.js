@@ -51,6 +51,13 @@ function Report() {
         const interestData = await getInterestAnalysis();
         const todaySentimentData = await getSentimentAnalysis(true);
         const yesterdaySentimentData = await getSentimentAnalysis(false);
+        const roundData = (data) => {
+            data.positive = Math.round(data.positive);
+            data.negative = Math.round(data.negative);
+            data.neutral = Math.round(data.neutral);
+        }
+        roundData(todaySentimentData);
+        roundData(yesterdaySentimentData);
         setInterest(interestData);
         setTodaySentiment(todaySentimentData);
         setYesterdaySentiment(yesterdaySentimentData);
