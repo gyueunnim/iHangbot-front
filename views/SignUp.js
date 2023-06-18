@@ -9,7 +9,7 @@ function SignUp({navigation}) {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
-    const [gender, setGender] = useState(true); 
+    const [gender, setGender] = useState(true);  // true : male, false : female
     const [age, setAge] = useState(0);
     const [email, setEmail] = useState("");
     const [btnStyle, setBtnStyle] = useState({});

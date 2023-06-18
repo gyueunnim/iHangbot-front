@@ -51,7 +51,7 @@ function Modification({navigation}) {
     navigateToChatBot()
     )};
 
-    const getInfo = () => {
+    const getInfo = () => { // 저장된 아이디를 통해 Info를 불러옵니다.
         axios.get(url)
         .then((res) => {
             setName(res.data.data.child_name);

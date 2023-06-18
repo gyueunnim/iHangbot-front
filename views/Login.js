@@ -41,7 +41,7 @@ function Login({navigation}) {
             params: loginInfo
         }).then((response) => {
             if(response.status === 200) {
-                dispatch(setUserLoginInfo([id]));
+                dispatch(setUserLoginInfo([id]));  // 접속 아이디를 store에 저장합니다.
                 navigateTo();
             }
             else
