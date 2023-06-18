@@ -5,8 +5,20 @@ import reportStyles from '../styles/reportStyles';
 
 function Report() {
     // data = axios.get();
-    const [comparedPositive, setcomparedPostive] = useState([0, ""])
-    const [comparedNegative, setcomparedNegative] = useState([0, ""])
+    const [comparedSentiment, setComparedSentiment] = useState({
+        positive: {
+            difference: 0,
+            message: []
+        },
+        negative: {
+            difference: 0,
+            message: []
+        }
+    });
+    const [sentimentKeywords, setSentimentKeywords] = useState({
+        positive: [],
+        negative: []
+    });
 
     const reportData = {
         "data": {
@@ -47,18 +59,21 @@ function Report() {
     const yesterdaySentiment =  reportData.data.sentiment.yesterday;
     const todaySentiment= reportData.data.sentiment.today
     
-    const compareSentiment = (differnece, set) => {
-        if(differnece > 0)
-            set([differnece, "증가"]);
-        else if(differnece < 0)
-            setcomparedPostive([Math.abs(differnece), "감소"]);
-        else
-            setcomparedPostive(0, "");
+    const compareSentiment = (diff) => {
+        const returnObj = {
+            difference: Math.abs(diff),
+            message: diff >= 0 ? "증가" : "감소"
+        }
+        return returnObj;
     }
 
     useEffect(() => {
-        compareSentiment(todaySentiment.positive - yesterdaySentiment.positive, setcomparedPostive);
-        compareSentiment(todaySentiment.negative - yesterdaySentiment.negative, setcomparedNegative);
+        const positiveComparison = compareSentiment(todaySentiment.positive - yesterdaySentiment.positive);
+        const negativeComparison = compareSentiment(todaySentiment.negative - yesterdaySentiment.negative);
+        setComparedSentiment({
+            positive: positiveComparison,
+            negative: negativeComparison
+        });
     }, [])
 
     
@@ -137,23 +152,23 @@ function Report() {
             />
             <Text>전날에 비해 긍정은 
                 {
-                    comparedPositive[0] === 0 ? 
+                    comparedSentiment.positive.difference === 0 ? 
                     <Text>변화가 없었습니다</Text>
-                    : <Text> {comparedPositive[0]}% {comparedPositive[1]}했습니다</Text>
+                    : <Text> {comparedSentiment.positive.difference}% {comparedSentiment.positive.message}했습니다</Text>
                 } 
             </Text>
             <Text>전날에 비해 부정은 
                 {
-                    comparedPositive[0] === 0 ? 
+                    comparedSentiment.positive.difference === 0 ? 
                     <Text>변화가 없었습니다</Text>
-                    : <Text> {comparedNegative[0]}% {comparedNegative[1]}했습니다</Text>
+                    : <Text> {comparedSentiment.negative.difference}% {comparedSentiment.negative.message}했습니다</Text>
                 } 
             </Text>
             <View style={reportStyles.reportComment}>
             {
-                comparedPositive[0] === 0 ? 
+                comparedSentiment.positive.difference === 0 ? 
                 <Text style={reportStyles.reportComment}>오늘도 아이와 즐거운 하루 보내세요!</Text> 
-                : ( comparedPositive[0] > 0 ?
+                : ( comparedSentiment.positive.difference > 0 ?
                 <Text style={reportStyles.reportComment}>아이가 긍정적인 질문을 많이 했네요! 오늘은 아이와 즐거운 대화를 많이 해보는건 어떨까요?</Text>
                 : <Text style={reportStyles.reportComment}>아이가 부정적인 질문을 많이 했어요. 오늘은 아이의 관심사에 대해 함께 얘기 해보는건 어떨까요?</Text>
                 )
