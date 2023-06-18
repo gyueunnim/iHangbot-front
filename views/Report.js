@@ -102,12 +102,12 @@ function Report() {
     
     const stackedBarChartData = {
         labels: ["어제", "오늘"],
-        legend: ["부정", "긍정"],
+        legend: ["부정", "중립", "긍정"],
         data: [
-            [yesterdaySentimentAnalysis.negative, yesterdaySentimentAnalysis.positive],
-            [todaySentimentAnalysis.negative, todaySentimentAnalysis.positive]
+            [yesterdaySentimentAnalysis.negative, yesterdaySentimentAnalysis.neutral, yesterdaySentimentAnalysis.positive],
+            [todaySentimentAnalysis.negative, todaySentimentAnalysis.neutral, todaySentimentAnalysis.positive]
         ],
-        barColors: ["#DB4D69", "#0098DB"],
+        barColors: ["#DB4D69", "#ced4da", "#0098DB"],
     }
 
     return (
