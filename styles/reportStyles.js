@@ -64,6 +64,24 @@ const reportStyles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 20,
         backgroundColor: '#FFFFFF'
+    },
+    analysisBoxContainer: {
+        width: "100%",
+        gap: 8
+    },
+    analaysisBox: {
+        width: "100%",
+        paddingHorizontal: 30,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        gap: 14
+    },
+    sentimentIcon: {
+        width: 40,
+        height: 40
+    },
+    analysisSummary: {
+        fontWeight: 500
     }
 });
   

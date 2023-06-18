@@ -134,6 +134,10 @@ function Report() {
                     paddingLeft={"-5"}
                     center={[10, -10]}
                 />
+                <View style={reportStyles.analysisBoxContainer}>
+                    <AnalysisBox isPositive={true} number={17} mention={["Hi", "Hello"]} />
+                    <AnalysisBox isPositive={false} number={83} mention={["Come on", "Kevin"]} />
+                </View>
                 <Text style={reportStyles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
                 <StackedBarChart
                     data={stackedBarChartData}
@@ -180,13 +184,14 @@ function Report() {
     );
 }
 
-function MentionAnalysisBox({isPositive, number, mention}) {
+function AnalysisBox({isPositive, number, mention}) {
     const iconSrc = isPositive ? require("../assets/positive_Icon.png") : require("../assets/negative_Icon.png");
+    const summaryColor = isPositive ? { color: "#0098DB" } : { color: "#DB4D69" };
     return (
-        <View>
-            <Image source={iconSrc} />
+        <View style={reportStyles.analaysisBox}>
+            <Image style={reportStyles.sentimentIcon} source={iconSrc} />
             <View>
-                <Text>{isPositive ? "긍정" : "부정"}: {number}</Text>
+                <Text style={[reportStyles.analysisSummary, summaryColor]}>{isPositive ? "긍정" : "부정"}: {number}</Text>
                 {
                     mention.map((elem, idx) => <Text key={idx}>{elem}</Text>)
                 }
