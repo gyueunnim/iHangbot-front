@@ -189,9 +189,11 @@ function AnalysisBox({isPositive, number, mention}) {
             <Image style={reportStyles.sentimentIcon} source={iconSrc} />
             <View>
                 <Text style={[reportStyles.analysisSummary, summaryColor]}>{isPositive ? "긍정" : "부정"}: {number}</Text>
-                {
-                    mention.map((elem, idx) => <Text key={idx}>{elem}</Text>)
-                }
+                <View style={reportStyles.mentionContainer}>
+                    {
+                        mention.map((elem, idx) => <Text key={idx}>{elem}</Text>)
+                    }
+                </View>
             </View>
         </View>
     );

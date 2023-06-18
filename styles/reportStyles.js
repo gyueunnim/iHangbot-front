@@ -66,7 +66,8 @@ const reportStyles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     analysisBoxContainer: {
-        width: "100%",
+        width: "90%",
+        alignSelf: "flex-start",
         gap: 8
     },
     analaysisBox: {
@@ -74,7 +75,8 @@ const reportStyles = StyleSheet.create({
         paddingHorizontal: 30,
         flexDirection: "row",
         justifyContent: "flex-start",
-        gap: 14
+        gap: 14,
+        marginBottom: 12
     },
     sentimentIcon: {
         width: 40,
@@ -82,6 +84,10 @@ const reportStyles = StyleSheet.create({
     },
     analysisSummary: {
         fontWeight: 500
+    },
+    mentionContainer: {
+        marginTop: 8,
+        gap: 2
     }
 });
   
