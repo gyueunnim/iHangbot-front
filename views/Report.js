@@ -6,8 +6,11 @@ import getInterestAnalysis from "../modules/getInterestAnalysis";
 import getSentimentAnalysis from "../modules/getSentimentAnalysis";
 
 function Report() {
-    const [interestAnalysis, setInterestAnalysis] = useState({
-        keywords: [],
+    const [interest, setInterest] = useState({
+        keywords: [{
+            keyword: "",
+            count: 0
+        }],
         concerns: []
     });
     const [todaySentiment, setTodaySentiment] = useState({
@@ -35,49 +38,12 @@ function Report() {
             message: []
         }
     });
-
-    const reportData = {
-        "data": {
-            "keywordList": [
-            {
-                "keyword": "레고",
-                "count": 45
-            },
-            {
-                "keyword": "소리",
-                "count": 35
-            },
-            {
-                "keyword": "지구",
-                "count": 25
-            },
-            {
-                "keyword": "감정",
-                "count": 15
-            },
-            {
-                "keyword": "자동차",
-                "count": 5
-            }
-            ],
-            "sentiment": {
-                "yesterday": {
-                    "positive": 90,
-                    "negative": 10
-                },
-                "today": {
-                    "positive": 65,
-                    "negative": 35
-                }
-            }
-        }
-    }
     
     const compareSentiment = (diff) => {
         const returnObj = {
             difference: Math.abs(diff),
             message: diff >= 0 ? "증가" : "감소"
-        }
+        };
         return returnObj;
     }
 
@@ -85,7 +51,7 @@ function Report() {
         const interestData = await getInterestAnalysis();
         const todaySentimentData = await getSentimentAnalysis(true);
         const yesterdaySentimentData = await getSentimentAnalysis(false);
-        setInterestAnalysis(interestData);
+        setInterest(interestData);
         setTodaySentiment(todaySentimentData);
         setYesterdaySentiment(yesterdaySentimentData);
         const positiveComparison = compareSentiment(todaySentimentData.positive - yesterdaySentimentData.positive);
@@ -118,13 +84,13 @@ function Report() {
         <ScrollView>
             <View style={reportStyles.container}>
                 <Text style={reportStyles.report}>테스트 계정의 데일리 보고서</Text>
-                <Text style={reportStyles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>레고</Text> 입니다.</Text>
+                <Text style={reportStyles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>{interest.keywords[0].keyword}</Text> 입니다.</Text>
                 {
-                    reportData.data.keywordList.map((a, idx) => {
+                    interest.keywords.map((elem, idx) => {
                         return (
                             <View style={reportStyles.reportView} key={idx}>
-                                <Text style={reportStyles.keyword}>{a.keyword}</Text>
-                                <Text style={reportStyles.count}>{a.count}회</Text>
+                                <Text style={reportStyles.keyword}>{elem.keyword}</Text>
+                                <Text style={reportStyles.count}>{elem.count}회</Text>
                                 <View style={reportStyles.line} />
                             </View>
                         );
