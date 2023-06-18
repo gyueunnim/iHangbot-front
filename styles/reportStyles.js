@@ -7,7 +7,8 @@ const reportStyles = StyleSheet.create({
         marginBottom: 20,
         paddingLeft: 0,
         backgroundColor: '#FFFFFF',
-        width: "100%"
+        width: "100%",
+        height: "100%"
     },
     report: {
         textAlign: 'center', 

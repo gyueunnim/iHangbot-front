@@ -1,4 +1,4 @@
-import { Text, ScrollView, View } from "react-native";
+import { Text, ScrollView, View, Image } from "react-native";
 import { useState, useEffect } from "react";
 import { PieChart, StackedBarChart } from "react-native-chart-kit";
 import reportStyles from '../styles/reportStyles';
@@ -16,7 +16,7 @@ function Report() {
         }
     });
     
-    const [sentimentKeywords, setSentimentKeywords] = useState({
+    const [sentimentMention, setSentimentMention] = useState({
         positive: [],
         negative: []
     });
@@ -177,6 +177,21 @@ function Report() {
                 </View>
             </View>
         </ScrollView>   
+    );
+}
+
+function MentionAnalysisBox({isPositive, number, mention}) {
+    const iconSrc = isPositive ? require("../assets/positive_Icon.png") : require("../assets/negative_Icon.png");
+    return (
+        <View>
+            <Image source={iconSrc} />
+            <View>
+                <Text>{isPositive ? "긍정" : "부정"}: {number}</Text>
+                {
+                    mention.map((elem, idx) => <Text key={idx}>{elem}</Text>)
+                }
+            </View>
+        </View>
     );
 }
 
