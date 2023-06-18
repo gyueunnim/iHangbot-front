@@ -3,12 +3,21 @@ import { useState, useEffect } from "react";
 import { StackedBarChart } from "react-native-chart-kit";
 import reportStyles from '../styles/reportStyles';
 import getInterestAnalysis from "../modules/getInterestAnalysis";
+import getSentimentAnalysis from "../modules/getSentimentAnalysis";
 
 function Report() {
-    const [interestAnalaysis, setInterestAnalysis] = useState({
+    const [interestAnalysis, setInterestAnalysis] = useState({
         keywords: [],
         concerns: []
     });
+    const [sentimentAnalysis, setSentimentAnalysis] = useState({
+        negative: 0,
+        positive: 0,
+        neutral: 0,
+        negData: [],
+        posData: []
+    });
+
     const [comparedSentiment, setComparedSentiment] = useState({
         positive: {
             difference: 0,
@@ -18,11 +27,6 @@ function Report() {
             difference: 0,
             message: []
         }
-    });
-    
-    const [sentimentMention, setSentimentMention] = useState({
-        positive: [],
-        negative: []
     });
 
     const reportData = {
@@ -74,6 +78,7 @@ function Report() {
 
     useEffect(() => {
         getInterestAnalysis().then((data) => setInterestAnalysis(data));
+        getSentimentAnalysis().then((data) => setSentimentAnalysis(data));
         const positiveComparison = compareSentiment(todaySentiment.positive - yesterdaySentiment.positive);
         const negativeComparison = compareSentiment(todaySentiment.negative - yesterdaySentiment.negative);
         setComparedSentiment({
