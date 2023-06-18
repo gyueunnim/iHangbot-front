@@ -1,21 +1,32 @@
-
 import { useState, useEffect } from "react";
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, ScrollView } from "react-native";
 import formStyles from "../styles/formStyles";
 import { RadioButton } from "react-native-paper";
+import axios from "axios";
 
-function SignUp() {
-    // For the value of radio button of genders
-    const male = "male";
-    const female = "female";
-
+function SignUp({navigation}) {
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
-    const [gender, setGender] = useState(male);
+    const [gender, setGender] = useState(true);  // true : male, false : female
+    const [age, setAge] = useState(0);
     const [email, setEmail] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
+
+    const userInfo = {
+        "user_id": id,
+        "password": password,
+        "check_password": checkPassword,
+        "email": email,
+        "child_name": name,
+        "child_age": age,
+        "child_gender": gender
+    }
+
+    const navigateToLogin = () => {
+        navigation.navigate("Login");
+    }   
 
     let checkAlert = () => {
         Alert.alert(                  
@@ -28,8 +39,20 @@ function SignUp() {
         }],
     { cancelable: false }
    )};
+
+   let failAlert = () => {
+        Alert.alert(                  
+        "회원가입",                    // Title
+        "회원가입에 실패하였습니다.",     // Sub-Title
+        [{                           // Button
+        
+            text: "확인",
+            style: "cancel"
+        }],
+    { cancelable: false }
+    )};
    
-   let tempAlert = () => {
+   let successAlert = () => {
         Alert.alert(                  
         "회원가입",                    // Title
         "회원가입이 완료되었습니다.",       // Sub-Title
@@ -38,15 +61,33 @@ function SignUp() {
             text: "확인",
             style: "cancel"
         }],
-    { cancelable: false }
-   )};
+    { cancelable: false },
+    navigateToLogin()
+    )};
+
+    const requestSignUp = async () => {
+        axios.post("http://192.168.0.177:8080/member/signUp", userInfo)
+        .then((response) => { 
+            if(response.status === 200) {
+                successAlert();
+            }
+            else
+                failAlert();
+        })
+        .catch((error) => console.error(error));
+    }
+
+
 
    useEffect(() => {
-       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled)
-   }, [name, id, password, checkPassword])
+       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") && (age !== "") && (email !== "") 
+       ? setBtnStyle(formStyles.btnActive) 
+       : setBtnStyle(formStyles.btnDisabled)
+   }, [name, id, password, checkPassword, gender, age, email])
 
 
     return (
+        <ScrollView>
         <View style={formStyles.container}>
             <View style={formStyles.inputContainer}>
                 <View style={formStyles.labelContainer}>
@@ -88,19 +129,25 @@ function SignUp() {
                 <View style={formStyles.radioContainer}>
                     <View style={formStyles.radioUnit}>
                         <RadioButton
-                                value={male}
-                                status={gender == male ? "checked" : "unchecked"}
-                                onPress={() => setGender(male)} />
+                                status={gender === true ? "checked" : "unchecked"}
+                                onPress={() => setGender(true)} />
                         <Text style={{color: "#212529"}}>남자</Text>
                     </View>
                     <View style={formStyles.radioUnit}>
                         <RadioButton
-                                value={female}
-                                status={gender == female ? "checked" : "unchecked"}
-                                onPress={() => setGender(female)} />
+                                status={gender == false ? "checked" : "unchecked"}
+                                onPress={() => setGender(false)} />
                         <Text style={{color: "#212529"}}>여자</Text>
                     </View>
                 </View>
+            </View>
+            <View style={formStyles.inputContainer}>
+                <View style={formStyles.labelContainer}>
+                    <Text style={formStyles.label}>나이</Text>
+                    <Text style={formStyles.requiredInput}>*</Text>
+                </View>
+                <TextInput style={formStyles.input} placeholder="나이를 입력하세요"
+                        onChangeText={(text) => setAge(text)}/>
             </View>
             <View style={formStyles.inputContainer}>
                 <View style={formStyles.labelContainer}>
@@ -114,13 +161,13 @@ function SignUp() {
                 <TouchableOpacity
                         style={[formStyles.btnLogin, btnStyle]}
                         onPress={ (e) => {
-                            // password === checkPassword ? setCheck(true) : checkAlert() // tempAlert() -> 서버 API 호출 대체 예정
-                            password === checkPassword ? tempAlert() : checkAlert() 
+                            password === checkPassword ? requestSignUp() : checkAlert()
                         } }>
                     <Text style={formStyles.btnText}>회원가입</Text>
                 </TouchableOpacity>
             </View>
         </View>
+        </ScrollView>
     );
 }
 

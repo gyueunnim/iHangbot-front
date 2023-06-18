@@ -2,16 +2,27 @@ import { useEffect, useState } from "react";
 import { Alert, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import formStyles from "../styles/formStyles";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setUserLoginInfo } from "../data/store.js";
+import axios from "axios";
 
 function Login({navigation}) {
     const initialLogin = useSelector((state) => state.initialLogin);
+    const userLoginInfo = useSelector((state) => state.userLoginInfo);
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
 
-    let checkAlert = () => {
+    const url = "http://192.168.0.177:8080/member/login"
+
+    const loginInfo = {
+        "user_id": id, 
+        "password": password
+    }
+
+    let failAlert = () => {
         Alert.alert(
-        "로그인",
+        "로그인 실패",
         "일치하는 아이디와 비밀번호가 없습니다",
         [{
             text: "확인",
@@ -20,9 +31,24 @@ function Login({navigation}) {
         { cancelable: false });
     };
 
-    let tempSuccess = () => {
+    let navigateTo = () => {
         initialLogin ? navigation.navigate("ChatBot") : navigation.navigate("ReportTab");
     };
+
+    const dispatch = useDispatch();
+    const requestLogin = async () => {
+        axios.get(url, {
+            params: loginInfo
+        }).then((response) => {
+            if(response.status === 200) {
+                dispatch(setUserLoginInfo([id]));  // 접속 아이디를 store에 저장합니다.
+                navigateTo();
+            }
+            else
+                failAlert();
+        })
+        .catch((err) => console.error(err))
+    }
 
     useEffect(() => {
         setPassword("");
@@ -49,9 +75,7 @@ function Login({navigation}) {
                 <TouchableOpacity
                         style={[formStyles.btnLogin, btnStyle]}
                         onPress={ (e) => {
-                            // 서버 API 호출 대체 예정
-                            // id, password가 올바른 경우 tempSuccess() 프로시저 호출 (ChatBot 컴포넌트로 이동)
-                            (id === "test") && (password === "test123") ? tempSuccess() : checkAlert();
+                            requestLogin();
                         } }>
                     <Text style={formStyles.btnText}>로그인</Text>
                 </TouchableOpacity>
