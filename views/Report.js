@@ -52,9 +52,9 @@ function Report({navigation}) {
         const todaySentimentData = await getSentimentAnalysis(true);
         const yesterdaySentimentData = await getSentimentAnalysis(false);
         const roundData = (data) => {
-            data.positive = Math.round(data.positive);
-            data.negative = Math.round(data.negative);
-            data.neutral = Math.round(data.neutral);
+            data.positive = Math.round(data.positive * 100) / 100;
+            data.negative = Math.round(data.negative * 100) / 100;
+            data.neutral = Math.round(data.neutral * 100) / 100;
         }
         roundData(todaySentimentData);
         roundData(yesterdaySentimentData);
@@ -139,14 +139,14 @@ function Report({navigation}) {
                     {
                         comparedSentiment.positive.difference === 0 ? 
                         <Text>변화가 없었습니다</Text>
-                        : <Text> {comparedSentiment.positive.difference}% {comparedSentiment.positive.message}했습니다</Text>
+                        : <Text> {Math.round(comparedSentiment.positive.difference * 100) / 100}% {comparedSentiment.positive.message}했습니다</Text>
                     } 
                 </Text>
                 <Text>전날에 비해 부정은 
                     {
                         comparedSentiment.positive.difference === 0 ? 
                         <Text>변화가 없었습니다</Text>
-                        : <Text> {comparedSentiment.negative.difference}% {comparedSentiment.negative.message}했습니다</Text>
+                        : <Text> {Math.round(comparedSentiment.negative.difference * 100) / 100}% {comparedSentiment.negative.message}했습니다</Text>
                     } 
                 </Text>
                 <Text style={reportStyles.reportCommentTitle}>부모님에게 드리는 제안</Text>
@@ -172,7 +172,7 @@ function AnalysisBox({isPositive, number, mention}) {
         <View style={reportStyles.analaysisBox}>
             <Image style={reportStyles.sentimentIcon} source={iconSrc} />
             <View>
-                <Text style={[reportStyles.analysisSummary, summaryColor]}>{isPositive ? "긍정" : "부정"}: {number}</Text>
+                <Text style={[reportStyles.analysisSummary, summaryColor]}>{isPositive ? "긍정" : "부정"}: {number}%</Text>
                 <View style={reportStyles.mentionContainer}>
                     {
                         mention.map((elem, idx) => {

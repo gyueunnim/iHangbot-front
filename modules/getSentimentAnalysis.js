@@ -25,8 +25,8 @@ const todayReportData = {
 
 const yesterdayReportData = {
     data: {
-        negative: 19.8,
-        positive: 40.2,
+        negative: 19.834143,
+        positive: 40.23141,
         neutral: 40,
         negData: [
             "말이안통하네 진짜",
