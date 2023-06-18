@@ -1,11 +1,11 @@
-import { Text, ScrollView, View, Image } from "react-native";
+import { Text, ScrollView, View, Image, BackHandler } from "react-native";
 import { useState, useEffect } from "react";
 import { StackedBarChart } from "react-native-chart-kit";
 import reportStyles from '../styles/reportStyles';
 import getInterestAnalysis from "../modules/getInterestAnalysis";
 import getSentimentAnalysis from "../modules/getSentimentAnalysis";
 
-function Report() {
+function Report({navigation}) {
     const [interest, setInterest] = useState({
         keywords: [{
             keyword: "",
@@ -70,7 +70,15 @@ function Report() {
     }
 
     useEffect(() => {
+        const goBack = () => {
+            navigation.navigate("ChatBot");
+            return true;
+        }
+        BackHandler.addEventListener("hardwareBackPress", goBack);
         fetchData();
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", goBack);
+        };
     }, []);
     
     const stackedBarChartData = {

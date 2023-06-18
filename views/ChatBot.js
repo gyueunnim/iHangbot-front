@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View, Image } from "react-native";
+import { Text, TouchableOpacity, View, Image, BackHandler } from "react-native";
 import { Audio } from "expo-av";
 import chatBotStyles from "../styles/chatBotStyles.js";
 import stt from "../modules/stt.js";
@@ -97,9 +97,16 @@ function ChatBot({navigation}) {
     }
 
     useEffect(() => {
-        return sound ? () => {
-            sound.unloadAsync();
-        } : undefined;
+        const goBack = () => {
+            navigation.navigate("Login");
+            dispatch(setInitialLogin(true));
+            return true;
+        }
+        BackHandler.addEventListener("hardwareBackPress", goBack);
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", goBack);
+            sound ? sound.unloadAsync : undefined;
+        };
     }, []);
 
     return (
