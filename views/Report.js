@@ -122,18 +122,6 @@ function Report() {
                     })
                 }
                 <Text style={reportStyles.sentimentTitle}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
-                <PieChart
-                    data={pieChartData}
-                    width={300}
-                    height={150}
-                    chartConfig={{
-                        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                    }}
-                    accessor={"population"}
-                    backgroundColor={"transparent"}
-                    paddingLeft={"-5"}
-                    center={[10, -10]}
-                />
                 <View style={reportStyles.analysisBoxContainer}>
                     <AnalysisBox isPositive={true} number={17} mention={["Hi", "Hello"]} />
                     <AnalysisBox isPositive={false} number={83} mention={["Come on", "Kevin"]} />
