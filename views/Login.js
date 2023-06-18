@@ -41,12 +41,12 @@ function Login({navigation}) {
         axios.get(url, {
             params: loginInfo
         }).then((response) => {
-            if(response.status === 200) {
+            if (response.data == null) {
+                failAlert();
+            } else {
                 dispatch(setUserLoginInfo([id]));  // 접속 아이디를 store에 저장합니다.
                 navigateTo();
             }
-            else
-                failAlert();
         })
         .catch((err) => console.error(err))
     }
