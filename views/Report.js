@@ -157,7 +157,17 @@ function AnalysisBox({isPositive, number, mention}) {
                 <Text style={[reportStyles.analysisSummary, summaryColor]}>{isPositive ? "긍정" : "부정"}: {number}</Text>
                 <View style={reportStyles.mentionContainer}>
                     {
-                        mention.map((elem, idx) => <Text key={idx}>{elem}</Text>)
+                        mention.map((elem, idx) => {
+                            const [text, setText] = useState(elem.length > 15 ? `${elem.substring(0, 15)}...` : elem);
+                            const [wasFolded, setWasFolded] = useState(true);
+                            const onTouch = () => {
+                                if (elem.length > 15) {
+                                    setText(wasFolded ? elem : `${elem.substring(0, 15)}...`);
+                                    setWasFolded(!wasFolded);
+                                }
+                            }
+                            return (<Text key={idx} onPress={onTouch}>{text}</Text>);
+                        })
                     }
                 </View>
             </View>
