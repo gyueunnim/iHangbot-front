@@ -7,9 +7,10 @@ import tts from "../modules/tts.js";
 import { useDispatch } from "react-redux";
 import { setInitialLogin } from "../data/store.js";
 import axios from "axios";
+import { chatbotUrl } from "../data/global.js";
 
 function ChatBot({navigation}) {   
-    const url = "http://192.168.0.204:8079/api/chat"
+    const url = chatbotUrl;
 
     const [sttLoading, setSttLoading] = useState(false);
     const [ttsLoading, setTtsLoading] = useState(false);

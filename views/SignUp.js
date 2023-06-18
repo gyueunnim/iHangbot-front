@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, 
 import formStyles from "../styles/formStyles";
 import { RadioButton } from "react-native-paper";
 import axios from "axios";
+import { signUpUrl } from "../data/global";
 
 function SignUp({navigation}) {
     const [name, setName] = useState("");
@@ -66,7 +67,7 @@ function SignUp({navigation}) {
     )};
 
     const requestSignUp = async () => {
-        axios.post("http://192.168.0.177:8080/member/signUp", userInfo)
+        axios.post(signUpUrl, userInfo)
         .then((response) => { 
             if(response.status === 200) {
                 successAlert();

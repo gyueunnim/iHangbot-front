@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setUserLoginInfo } from "../data/store.js";
 import axios from "axios";
+import { loginUrl } from "../data/global";
 
 function Login({navigation}) {
     const initialLogin = useSelector((state) => state.initialLogin);
@@ -13,7 +14,7 @@ function Login({navigation}) {
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
 
-    const url = "http://192.168.0.177:8080/member/login"
+    const url = loginUrl;
 
     const loginInfo = {
         "user_id": id, 
