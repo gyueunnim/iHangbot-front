@@ -1,5 +1,4 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import { INTIAL_LOGIN } from "./constants";
 
 const initialLogin = createSlice({
     name: "initialLogin",
