@@ -2,42 +2,7 @@ import { Text, ScrollView, View, Image } from "react-native";
 import { useState, useEffect } from "react";
 import { StackedBarChart } from "react-native-chart-kit";
 import reportStyles from '../styles/reportStyles';
-
-/*
-{
-  "status": 200,
-  "message": "성공",
-  "data": {
-    "keywords": [
-      {
-        "keyword": "탐정",
-        "count": 9
-      },
-      {
-        "keyword": "르코크",
-        "count": 6
-      },
-      {
-        "keyword": "개성",
-        "count": 3
-      },
-      {
-        "keyword": "단편",
-        "count": 3
-      },
-      {
-        "keyword": "사건",
-        "count": 3
-      }
-    ],
-    "concerns": [
-      "/Books & Literature/Literary Classics",
-      "/Arts & Entertainment"
-    ]
-  }
-}
-
-*/
+import getInterestAnalysis from "../modules/getInterestAnalysis";
 
 function Report() {
     const [interestAnalaysis, setInterestAnalysis] = useState({
@@ -108,31 +73,14 @@ function Report() {
     }
 
     useEffect(() => {
+        getInterestAnalysis().then((data) => setInterestAnalysis(data));
         const positiveComparison = compareSentiment(todaySentiment.positive - yesterdaySentiment.positive);
         const negativeComparison = compareSentiment(todaySentiment.negative - yesterdaySentiment.negative);
         setComparedSentiment({
             positive: positiveComparison,
             negative: negativeComparison
         });
-    }, [])
-
-    
-    const pieChartData = [
-        {
-            name: "긍정",
-            population: todaySentiment.positive,
-            color: "#0098DB",
-            legendFontColor: "#444444",
-            legendFontSize: 17
-        },
-        {
-            name: "부정",
-            population: todaySentiment.negative,
-            color: "#DB4D69",
-            legendFontColor: "#444444",
-            legendFontSize: 17
-        }
-    ]
+    }, []);
     
     const stackedBarChartData = {
         labels: ["어제", "오늘"],
