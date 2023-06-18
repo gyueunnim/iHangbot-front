@@ -10,14 +10,14 @@ function Report() {
         keywords: [],
         concerns: []
     });
-    const [todaySentimentAnalysis, setTodaySentimentAnalysis] = useState({
+    const [todaySentiment, setTodaySentiment] = useState({
         negative: 0,
         positive: 0,
         neutral: 0,
         negData: [],
         posData: []
     });
-    const [yesterdaySentimentAnalysis, setYesterdaySentimentAnalysis] = useState({
+    const [yesterdaySentiment, setYesterdaySentiment] = useState({
         negative: 0,
         positive: 0,
         neutral: 0,
@@ -86,8 +86,8 @@ function Report() {
         const todaySentimentData = await getSentimentAnalysis(true);
         const yesterdaySentimentData = await getSentimentAnalysis(false);
         setInterestAnalysis(interestData);
-        setTodaySentimentAnalysis(todaySentimentData);
-        setYesterdaySentimentAnalysis(yesterdaySentimentData);
+        setTodaySentiment(todaySentimentData);
+        setYesterdaySentiment(yesterdaySentimentData);
         const positiveComparison = compareSentiment(todaySentimentData.positive - yesterdaySentimentData.positive);
         const negativeComparison = compareSentiment(todaySentimentData.negative - yesterdaySentimentData.negative);
         setComparedSentiment({
@@ -104,8 +104,8 @@ function Report() {
         labels: ["어제", "오늘"],
         legend: ["부정", "중립", "긍정"],
         data: [
-            [yesterdaySentimentAnalysis.negative, yesterdaySentimentAnalysis.neutral, yesterdaySentimentAnalysis.positive],
-            [todaySentimentAnalysis.negative, todaySentimentAnalysis.neutral, todaySentimentAnalysis.positive]
+            [yesterdaySentiment.negative, yesterdaySentiment.neutral, yesterdaySentiment.positive],
+            [todaySentiment.negative, todaySentiment.neutral, todaySentiment.positive]
         ],
         barColors: ["#DB4D69", "#ced4da", "#0098DB"],
     }
