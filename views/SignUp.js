@@ -5,13 +5,11 @@ import { RadioButton } from "react-native-paper";
 import axios from "axios";
 
 function SignUp({navigation}) {
-    // For the value of radio button of genders
-
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
-    const [gender, setGender] = useState(true); // true : male, false : female
+    const [gender, setGender] = useState(true); 
     const [age, setAge] = useState(0);
     const [email, setEmail] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
@@ -65,25 +63,26 @@ function SignUp({navigation}) {
         }],
     { cancelable: false },
     navigateToLogin()
-   )};
+    )};
 
-      const clickedToServer = async () => {
+    const requestSignUp = async () => {
         axios.post("http://192.168.0.177:8080/member/signUp", userInfo)
         .then((response) => { 
             if(response.status === 200) {
                 successAlert();
-                navigateToLogin();
             }
             else
                 failAlert();
         })
-        .catch((err) => console.error(err));
+        .catch((error) => console.error(error));
     }
 
 
 
    useEffect(() => {
-       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") ? setBtnStyle(formStyles.btnActive) : setBtnStyle(formStyles.btnDisabled)
+       (name !== "") && (id !== "") && (password !== "") && (checkPassword !== "") && (age !== "") && (email !== "") 
+       ? setBtnStyle(formStyles.btnActive) 
+       : setBtnStyle(formStyles.btnDisabled)
    }, [name, id, password, checkPassword, gender, age, email])
 
 
@@ -130,7 +129,7 @@ function SignUp({navigation}) {
                 <View style={formStyles.radioContainer}>
                     <View style={formStyles.radioUnit}>
                         <RadioButton
-                                status={gender == true ? "checked" : "unchecked"}
+                                status={gender === true ? "checked" : "unchecked"}
                                 onPress={() => setGender(true)} />
                         <Text style={{color: "#212529"}}>남자</Text>
                     </View>
@@ -162,7 +161,7 @@ function SignUp({navigation}) {
                 <TouchableOpacity
                         style={[formStyles.btnLogin, btnStyle]}
                         onPress={ (e) => {
-                            password === checkPassword ? clickedToServer() : checkAlert()
+                            password === checkPassword ? requestSignUp() : checkAlert()
                         } }>
                     <Text style={formStyles.btnText}>회원가입</Text>
                 </TouchableOpacity>

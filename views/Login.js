@@ -36,7 +36,7 @@ function Login({navigation}) {
     };
 
     const dispatch = useDispatch();
-    const clickedToServer = async () => {
+    const requestLogin = async () => {
         axios.get(url, {
             params: loginInfo
         }).then((response) => {
@@ -75,7 +75,7 @@ function Login({navigation}) {
                 <TouchableOpacity
                         style={[formStyles.btnLogin, btnStyle]}
                         onPress={ (e) => {
-                            clickedToServer();
+                            requestLogin();
                         } }>
                     <Text style={formStyles.btnText}>로그인</Text>
                 </TouchableOpacity>

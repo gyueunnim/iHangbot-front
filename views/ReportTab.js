@@ -5,11 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 /* screen */
 import Report from './Report';
 import Modification from './Modification';
+import ChatBot from './ChatBot';
 
 const Tab = createBottomTabNavigator();
 
 function ReportTab({navigation}) {
-  const [selected, setSelected] = useState(0);
     return (
         <Tab.Navigator screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
@@ -21,7 +21,6 @@ function ReportTab({navigation}) {
               } else if (route.name === 'ChatBot') {
                 iconName = focused ? 'happy' : 'happy-outline';
               }
-              // You can return any component that you like here!
               return <Ionicons name={iconName} size={size} color={color} />;
             },
             headerShown: false,
@@ -36,8 +35,5 @@ function ReportTab({navigation}) {
         </Tab.Navigator>
     )
 }
-
-
-
 
 export default ReportTab;

@@ -41,8 +41,6 @@ function ChatBot({navigation}) {
             "string": query
         })
         .then(async (response) => {
-            setChatbotResponse(response.data.message);
-
             const ttsResponse = await tts(response.data.message);
 
             setTtsLoading(false);
