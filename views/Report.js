@@ -99,7 +99,9 @@ function Report({navigation}) {
         <ScrollView>
             <View style={reportStyles.container}>
                 <Text style={reportStyles.report}>테스트 계정의 데일리 보고서</Text>
-                <Text style={reportStyles.reportTitle}>오늘의 주요 관심사는 <Text style={{ color: '#214597' }}>{interest.keywords[0].keyword}</Text> 입니다.</Text>
+                <Text style={reportStyles.reportTitle}>
+                    이번주 주요 관심 주제는 <Text style={{ color: '#214597' }}>{interest.concerns.join(", ")}</Text>입니다.
+                </Text>
                 {
                     interest.keywords.map((elem, idx) => {
                         return (

@@ -26,8 +26,9 @@ const reportData = {
             }
         ],
         concerns: [
-            "/Books & Literature/Literary Classics",
-            "/Arts & Entertainment"
+            "술",
+            "마시고",
+            "싶다"
         ]
     }
 }
