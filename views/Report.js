@@ -110,6 +110,10 @@ function Report() {
         barColors: ["#DB4D69", "#ced4da", "#0098DB"],
     }
 
+    const todayMainSentiment = todaySentiment.positive >= todaySentiment.negative
+            ? { color: "#0098DB", text: "긍정" }
+            : { color: "#DB4D69", text: "부정" };
+
     return (
         <ScrollView>
             <View style={reportStyles.container}>
@@ -126,10 +130,10 @@ function Report() {
                         );
                     })
                 }
-                <Text style={reportStyles.sentimentTitle}>오늘의 주요 감정은 <Text style={{ color: '#214597' }}>긍정</Text> 입니다</Text>
+                <Text style={reportStyles.sentimentTitle}>오늘의 주요 감정은 <Text style={{color: todayMainSentiment.color}}>{todayMainSentiment.text}</Text> 입니다</Text>
                 <View style={reportStyles.analysisBoxContainer}>
-                    <AnalysisBox isPositive={true} number={17} mention={["Hi", "Hello"]} />
-                    <AnalysisBox isPositive={false} number={83} mention={["Come on", "Kevin"]} />
+                    <AnalysisBox isPositive={true} number={todaySentiment.positive} mention={todaySentiment.posData} />
+                    <AnalysisBox isPositive={false} number={todaySentiment.negative} mention={todaySentiment.negData} />
                 </View>
                 <Text style={reportStyles.sentimentTitle}>전날 대비 감정 추이 비교</Text>
                 <StackedBarChart
