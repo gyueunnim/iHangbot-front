@@ -6,14 +6,14 @@ import ChatBot from "./ChatBot";
 import axios from "axios";
 
 function Modification({navigation}) {
-    const url = "http://192.168.0.177:8080/member/"+(userLoginInfo.id)+"/profile"
-
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [gender, setGender] = useState(true);
     const [email, setEmail] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
     const userLoginInfo = useSelector((state) => {return state.userLoginInfo});
+
+    const url = "http://192.168.0.177:8080/member/"+(userLoginInfo.id)+"/profile"
 
     const userInfo = {
         "child_name": name,
