@@ -24,18 +24,26 @@ const reportStyles = StyleSheet.create({
         marginTop: 35,
         marginBottom: 15,
         fontSize: 17,
-                fontWeight: 'bold'
+        fontWeight: 'bold'
     },
     reportView: {
         flexDirection:'row', 
         marginLeft: 60, 
         marginRight: 60,
     },
+    reportCommentTitle: {
+        textAlign: 'center', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        fontSize: 15,
+        marginTop: 30,
+        fontWeight: 'bold'
+    },
     reportComment: {
-      marginTop: 20 ,
-      marginLeft: 15, 
-      marginRight: 15,
-      fontSize: 15
+        marginTop: 4,    
+        marginLeft: 15, 
+        marginRight: 15,
+        fontSize: 15
     },
     sentimentTitle: {
         textAlign: 'center', 

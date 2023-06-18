@@ -147,6 +147,7 @@ function Report({navigation}) {
                         : <Text> {comparedSentiment.negative.difference}% {comparedSentiment.negative.message}했습니다</Text>
                     } 
                 </Text>
+                <Text style={reportStyles.reportCommentTitle}>부모님에게 드리는 제안</Text>
                 <View style={reportStyles.reportComment}>
                 {
                     comparedSentiment.positive.difference === 0 ? 

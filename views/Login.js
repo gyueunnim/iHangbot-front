@@ -52,9 +52,9 @@ function Login({navigation}) {
     }
 
     // TODO: remove this after testing
-    useEffect(() => {
-        navigation.navigate("ReportTab");
-    }, []);
+    // useEffect(() => {
+    //     navigation.navigate("ReportTab");
+    // }, []);
 
     useEffect(() => {
         setPassword("");
