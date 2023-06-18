@@ -1,5 +1,5 @@
 import axios from "axios";
-import { urlPostGetKeyword, urlPostReport } from "../data/global";
+import { urlPostReport } from "../data/global";
 
 const reportData = {
     data: {

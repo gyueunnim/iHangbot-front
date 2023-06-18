@@ -10,7 +10,14 @@ function Report() {
         keywords: [],
         concerns: []
     });
-    const [sentimentAnalysis, setSentimentAnalysis] = useState({
+    const [todaySentimentAnalysis, setTodaySentimentAnalysis] = useState({
+        negative: 0,
+        positive: 0,
+        neutral: 0,
+        negData: [],
+        posData: []
+    });
+    const [yesterdaySentimentAnalysis, setYesterdaySentimentAnalysis] = useState({
         negative: 0,
         positive: 0,
         neutral: 0,
@@ -65,8 +72,6 @@ function Report() {
             }
         }
     }
-    const yesterdaySentiment =  reportData.data.sentiment.yesterday;
-    const todaySentiment = reportData.data.sentiment.today;
     
     const compareSentiment = (diff) => {
         const returnObj = {
@@ -76,23 +81,31 @@ function Report() {
         return returnObj;
     }
 
-    useEffect(() => {
-        getInterestAnalysis().then((data) => setInterestAnalysis(data));
-        getSentimentAnalysis().then((data) => setSentimentAnalysis(data));
-        const positiveComparison = compareSentiment(todaySentiment.positive - yesterdaySentiment.positive);
-        const negativeComparison = compareSentiment(todaySentiment.negative - yesterdaySentiment.negative);
+    const fetchData = async () => {
+        const interestData = await getInterestAnalysis();
+        const todaySentimentData = await getSentimentAnalysis(true);
+        const yesterdaySentimentData = await getSentimentAnalysis(false);
+        setInterestAnalysis(interestData);
+        setTodaySentimentAnalysis(todaySentimentData);
+        setYesterdaySentimentAnalysis(yesterdaySentimentData);
+        const positiveComparison = compareSentiment(todaySentimentData.positive - yesterdaySentimentData.positive);
+        const negativeComparison = compareSentiment(todaySentimentData.negative - yesterdaySentimentData.negative);
         setComparedSentiment({
             positive: positiveComparison,
             negative: negativeComparison
         });
+    }
+
+    useEffect(() => {
+        fetchData();
     }, []);
     
     const stackedBarChartData = {
         labels: ["어제", "오늘"],
         legend: ["부정", "긍정"],
         data: [
-            [yesterdaySentiment.negative, yesterdaySentiment.positive],
-            [todaySentiment.negative, todaySentiment.positive]
+            [yesterdaySentimentAnalysis.negative, yesterdaySentimentAnalysis.positive],
+            [todaySentimentAnalysis.negative, todaySentimentAnalysis.positive]
         ],
         barColors: ["#DB4D69", "#0098DB"],
     }
