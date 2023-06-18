@@ -7,10 +7,10 @@ export const urlPostGetConcern = restServerUrl + "/keyword/getConcern";
 
 // sentiment
 export const urlPostSentimentReport = restServerUrl + "/sentiment/report";
-export const urlPostGetSentimentData = restServerUrl + "/sentiment/getData";
+export const urlPostGetData = restServerUrl + "/sentiment/getData";
 
 // member
-export const urlPutProfile = (memberId) => restServerUrl + `/member/${memberId}/profile/setting`;
+export const urlPutProfileSetting = (memberId) => restServerUrl + `/member/${memberId}/profile/setting`;
 export const urlPostSignUp = restServerUrl + "/member/signUp";
 export const urlGetLogin = restServerUrl + "/member/login";
 export const urlGetProfile = (memberId) => restServerUrl + `/member/${memberId}"/profile`;

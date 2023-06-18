@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setUserLoginInfo } from "../data/store.js";
 import axios from "axios";
-import { loginUrl } from "../data/global";
+import { urlGetLogin } from "../data/global";
 
 function Login({navigation}) {
     const initialLogin = useSelector((state) => state.initialLogin);
@@ -14,7 +14,7 @@ function Login({navigation}) {
     const [password, setPassword] = useState("");
     const [btnStyle, setBtnStyle] = useState({});
 
-    const url = loginUrl;
+    const url = urlGetLogin;
 
     const loginInfo = {
         "user_id": id, 
@@ -50,6 +50,11 @@ function Login({navigation}) {
         })
         .catch((err) => console.error(err))
     }
+
+    // TODO: remove this after testing
+    useEffect(() => {
+        navigation.navigate("ReportTab");
+    }, []);
 
     useEffect(() => {
         setPassword("");

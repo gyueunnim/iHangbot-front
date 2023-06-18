@@ -1,10 +1,49 @@
 import { Text, ScrollView, View, Image } from "react-native";
 import { useState, useEffect } from "react";
-import { PieChart, StackedBarChart } from "react-native-chart-kit";
+import { StackedBarChart } from "react-native-chart-kit";
 import reportStyles from '../styles/reportStyles';
 
+/*
+{
+  "status": 200,
+  "message": "성공",
+  "data": {
+    "keywords": [
+      {
+        "keyword": "탐정",
+        "count": 9
+      },
+      {
+        "keyword": "르코크",
+        "count": 6
+      },
+      {
+        "keyword": "개성",
+        "count": 3
+      },
+      {
+        "keyword": "단편",
+        "count": 3
+      },
+      {
+        "keyword": "사건",
+        "count": 3
+      }
+    ],
+    "concerns": [
+      "/Books & Literature/Literary Classics",
+      "/Arts & Entertainment"
+    ]
+  }
+}
+
+*/
+
 function Report() {
-    // data = axios.get();
+    const [interestAnalaysis, setInterestAnalysis] = useState({
+        keywords: [],
+        concerns: []
+    });
     const [comparedSentiment, setComparedSentiment] = useState({
         positive: {
             difference: 0,
