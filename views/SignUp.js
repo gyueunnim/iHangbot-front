@@ -88,7 +88,6 @@ function SignUp({navigation}) {
 
 
     return (
-        <ScrollView>
         <View style={formStyles.container}>
             <View style={formStyles.inputContainer}>
                 <View style={formStyles.labelContainer}>
@@ -168,7 +167,6 @@ function SignUp({navigation}) {
                 </TouchableOpacity>
             </View>
         </View>
-        </ScrollView>
     );
 }
 

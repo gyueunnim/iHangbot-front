@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import ChatBot from "./ChatBot";
 import axios from "axios";
 import { RadioButton } from "react-native-paper";
-import { getProfileUrl } from "../data/global";
+import { urlGetProfile } from "../data/global";
 
 function Modification({navigation}) {
     const [name, setName] = useState("");
@@ -15,7 +15,8 @@ function Modification({navigation}) {
     const [btnStyle, setBtnStyle] = useState({});
     const userLoginInfo = useSelector((state) => {return state.userLoginInfo});
 
-    const url = getProfileUrl(userLoginInfo.id);
+    const url = urlGetProfile(userLoginInfo.id);
+    console.log(url);
 
     const userInfo = {
         "child_name": name,
