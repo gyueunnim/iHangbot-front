@@ -4,6 +4,7 @@ import { StackedBarChart } from "react-native-chart-kit";
 import reportStyles from '../styles/reportStyles';
 import getInterestAnalysis from "../modules/getInterestAnalysis";
 import getSentimentAnalysis from "../modules/getSentimentAnalysis";
+import requestReportComment from "../modules/requestReportComment";
 
 function Report({navigation}) {
     const [interest, setInterest] = useState({
@@ -38,6 +39,8 @@ function Report({navigation}) {
             message: []
         }
     });
+
+    const [reportComment, setReportComment] = useState("");
     
     const compareSentiment = (diff) => {
         const returnObj = {
@@ -56,6 +59,8 @@ function Report({navigation}) {
             data.negative = Math.round(data.negative * 100) / 100;
             data.neutral = Math.round(data.neutral * 100) / 100;
         }
+        const rc = await requestReportComment();
+        setReportComment(rc);
         roundData(todaySentimentData);
         roundData(yesterdaySentimentData);
         setInterest(interestData);
@@ -151,14 +156,7 @@ function Report({navigation}) {
                 </Text>
                 <Text style={reportStyles.reportCommentTitle}>부모님에게 드리는 제안</Text>
                 <View style={reportStyles.reportComment}>
-                {
-                    comparedSentiment.positive.difference === 0 ? 
-                    <Text style={reportStyles.reportComment}>오늘도 아이와 즐거운 하루 보내세요!</Text> 
-                    : ( comparedSentiment.positive.difference > 0 ?
-                    <Text style={reportStyles.reportComment}>아이가 긍정적인 질문을 많이 했네요! 오늘은 아이와 즐거운 대화를 많이 해보는건 어떨까요?</Text>
-                    : <Text style={reportStyles.reportComment}>아이가 부정적인 질문을 많이 했어요. 오늘은 아이의 관심사에 대해 함께 얘기 해보는건 어떨까요?</Text>
-                    )
-                }
+                    <Text style={reportStyles.reportComment}>{reportComment}</Text>
                 </View>
             </View>
         </ScrollView>   

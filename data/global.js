@@ -16,3 +16,4 @@ export const urlGetLogin = restServerUrl + "/member/login";
 export const urlGetProfile = (memberId) => restServerUrl + `/member/${memberId}"/profile`;
 
 export const chatbotUrl = "http://192.168.0.204:8079/api/chat";
+export const urlGetReportComment = ""; // TODO
