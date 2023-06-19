@@ -16,7 +16,6 @@ function Modification({navigation}) {
     const userLoginInfo = useSelector((state) => {return state.userLoginInfo});
 
     const url = urlGetProfile(userLoginInfo.id);
-    console.log(url);
 
     const userInfo = {
         "child_name": name,
